@@ -115,18 +115,18 @@ StegGPT^4 was one of the few papers that provided generated codes - I'll compare
 
 To compare with StegGPT character vs word based approach:
 
-|no|Secret Message[fn^2]|StegGPT Generated Text[fn^2]|Word Count|Google Gemini|Word difference|
-|--|--------------------|----------------------------|-------------|---------------|
-|1|Sezkgpyrtlq|These are not the true ones. I ’ve done my due to the amount Gloves, it doesalmost nothing to prevent it, the whole world needs to hear|28|||
-|2|xgelwoxlxh|But to be true to God and to be without one else. That way one would be the lastone to run and have the other team try to take you to my blog|34|||
-|3|aobeaboirg|The truth are the two that exist on the earth. The God of my life would not havecome to the same end. The game runs|26|||
-|4|nlﬁixgtql|Not to say not to that effect, or so you are not yet the same age of the game andage and age and age. These data also suggest that both the size|33|||
-|5|ywtqxbjysc|Not the ones that are the most recent of their names, that one name or one nameis the only way to know if the data were accurate to the latest version|32|||
-|6|kﬁlqfjicz|You’re not to use the money to do real estate, to do this for free and it would beamazing to do it if they felt entitled to it. The other end of the cable|35|||
-|7|smﬂttuqng|One does what they want to to hear, but to do the exact same job that was oncethe top of the game that you get is not to be found or to be able|35|||
-|8|aeauizmlsy|The truth is not only to get the latest, the team must start the day on the path tobe the head of one of his army, who took the battleﬁeld|31|||
-|9|bdkdnwulip|All were told that it was the end to my trip. The whole ride on one of em to proveits merit to the players it gives to us. There|30|||
-|10|usiukgexck|The fact about God is one of the most exalted and enduring and the father to yourbaby or to the same site by name or with|27|||
+|no|Secret Message[fn^2]|StegGPT Generated Text[fn^2]|Word Count|
+|--|--------------------|----------------------------|-------------|
+|1|Sezkgpyrtlq|These are not the true ones. I ’ve done my due to the amount Gloves, it doesalmost nothing to prevent it, the whole world needs to hear|28|
+|2|xgelwoxlxh|But to be true to God and to be without one else. That way one would be the lastone to run and have the other team try to take you to my blog|34|
+|3|aobeaboirg|The truth are the two that exist on the earth. The God of my life would not havecome to the same end. The game runs|26|
+|4|nlﬁixgtql|Not to say not to that effect, or so you are not yet the same age of the game andage and age and age. These data also suggest that both the size|33|
+|5|ywtqxbjysc|Not the ones that are the most recent of their names, that one name or one nameis the only way to know if the data were accurate to the latest version|32|
+|6|kﬁlqfjicz|You’re not to use the money to do real estate, to do this for free and it would beamazing to do it if they felt entitled to it. The other end of the cable|35|
+|7|smﬂttuqng|One does what they want to to hear, but to do the exact same job that was oncethe top of the game that you get is not to be found or to be able|35|
+|8|aeauizmlsy|The truth is not only to get the latest, the team must start the day on the path tobe the head of one of his army, who took the battleﬁeld|31|
+|9|bdkdnwulip|All were told that it was the end to my trip. The whole ride on one of em to proveits merit to the players it gives to us. There|30|
+|10|usiukgexck|The fact about God is one of the most exalted and enduring and the father to yourbaby or to the same site by name or with|27|
 
 There have been a proliferation in LLM encoding process that primarily used proprietary LLMs to generate cover text. A recent sub-approach has been classified as "Prompting Steganography" this approach is the closest to what has been described on this paper. When I started this project - "Prompting Steganography"^3 did not exist. This paper adds a prepositional based approach to the other Prompting Strategies already published.  
 
