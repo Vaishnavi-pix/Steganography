@@ -45,16 +45,16 @@ The proposed approach is based on the following steps:
 1. Convert each character including spaces and punctuations into it's ASCII value.
 2. For each value converted value map it to a preposition; the following table illustrates a sample mapping.
 
-| bit| preposition  | bit  | preposition   |
+| hex| preposition  | hex  | preposition   |
 |---|---|---|---|
 | 0  | in  | 8| between  |
 | 1  | on  | 9 | into  |
-| 2  | at  | 10 | through  |
-| 3  | by  | 11 | during  |
-| 4  | for  | 12  |  before |
-| 5  | with  | 13  |  after |
-| 6  | about  | 14  | above  |
-| 7  |  against | 15  | below  |
+| 2  | at  | a | through  |
+| 3  | by  | b | during  |
+| 4  | for  | c  |  before |
+| 5  | with  | d  |  after |
+| 6  | about  | e  | above  |
+| 7  |  against | f  | below  |
 
 3. Generate cover text with LLM prompts; to use the prepositions in order and not use any other preposition in the list to generate a steganagraphic text. Each type of LLM requires a custom prompt. For this approach we used Google Gemini.
 
