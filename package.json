@@ -2,14 +2,17 @@
   "name": "steganography",
   "version": "1.0.0",
   "description": "Steganography - Preposition Demo",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "functions-framework --target=stegApp",
+    "start:local": "functions-framework --target=stegApp",
+    "dev": "nodemon --exec functions-framework --target=stegApp"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/functions-framework": "^5.0.2",
     "@google/genai": "^1.5.1",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
