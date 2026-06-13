@@ -1,109 +1,417 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en">
 
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Steganography Demo</title>
+  <title>Stegveil: Hiding Data in Plain Text with Generative AI</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
     body {
       font-family: "Quicksand", sans-serif;
+      color: #1e293b;
+      background-color: #ffffff;
+      /* Clean technical circuitry, magnifying lens, and blueprint schematic framework (text removed) */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1920 1080' preserveAspectRatio='xMidYMid slice'%3E%3Cg fill='none' stroke='%23cbd5e1' stroke-width='1.5' stroke-opacity='0.4'%3E%3C!-- Left Circuit Node Structure --%3E%3Cpath d='M-50 400h150l60-60v-100m0 0l30-30h100m-130 30h-50m120-90h80v-50' /%3E%3Ccircle cx='190' cy='210' r='4' fill='%23cbd5e1' fill-opacity='0.3'/%3E%3Cpath d='M60 340l40 40v200l-50 50H10' /%3E%3Ccircle cx='100' cy='380' r='3'/%3E%3Cpath d='M160 340h120l40 40v150l30 30h60' /%3E%3Ccircle cx='410' cy='560' r='4' fill='%23cbd5e1' fill-opacity='0.3'/%3E%3C!-- Right Optics/Search Geometry --%3E%3Cg transform='translate(1650, 150)'%3E%3Ccircle cx='60' cy='60' r='45' stroke-width='2'/%3E%3Cline x1='92' y1='92' x2='140' y2='140' stroke-width='3'/%3E%3C/g%3E%3Cpath d='M1950 300h-150l-40 40v120l-30 30h-100m170-190v-80h-120l-20-20v-50' /%3E%3Ccircle cx='1610' cy='490' r='3'/%3E%3Cpath d='M1760 460v90l-40 40h-150l-30-30v-80' /%3E%3Ccircle cx='1540' cy='560' r='4' fill='%23cbd5e1' fill-opacity='0.3'/%3E%3C!-- Grid Infrastructure Accents --%3E%3Crect x='100' y='750' width='80' height='80' stroke-dasharray='4,4' stroke-opacity='0.2'/%3E%3Ccircle cx='140' cy='790' r='20' stroke-opacity='0.2'/%3E%3Cpath d='M1700 850m-30 0a30 30 0 1 0 60 0a30 30 0 1 0 -60 0M1650 850h130M1700 800v100' stroke-opacity='0.15'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: cover;
+      background-position: center top;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
     }
 
+    /* Top Header Bar Styling */
+    .top-header-bar {
+      background-color: #0f172a;
+      display: flex;
+      justifyContent: center;
+      align-items: center;
+      padding: 14px 24px;
+      width: 100%;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 1000;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .brand-title {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 0;
+      font-size: 1.75rem;
+      background: linear-gradient(to right, rgb(56, 189, 248), rgb(255, 255, 255));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header-link {
+      display: inline-block;
+      color: #0f172a;
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      padding: 6px 16px;
+      margin: 0 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .header-link:hover {
+      background-color: #f1f5f9;
+      transform: translateY(-1px);
+      color: #0f172a;
+    }
+    
+    .donate-link {
+      background-color: #3b82f6;
+      color: #ffffff !important;
+      padding: 6px 18px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: 6px;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .donate-link:hover {
+      background-color: #2563eb;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    /* Typography & App Elements */
+    .steg-title {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+    }
+
+    .section-label {
+      font-weight: 700;
+      color: #475569;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      font-size: 1.1rem;
+    }
+
+    .text-card-panel {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    }
+
+    .form-control-custom {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      padding: 12px;
+      resize: none;
+      font-family: "Quicksand", sans-serif;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-control-custom:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+      outline: 0;
+    }
+
+    /* Select Dropdown Enhancements */
+    .form-select-custom {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 1rem;
+      padding: 10px 14px;
+      font-family: "Quicksand", sans-serif;
+      font-weight: 600;
+      color: #334155;
+      background-color: #f8fafc;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-select-custom:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+      outline: 0;
+    }
+
+    /* Centered Navigation Tabs Styles */
+    .tab-nav-wrapper {
+      display: flex;
+      justifyContent: center;
+      margin-bottom: 25px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .nav-tabs-custom {
+      display: inline-flex;
+      border-bottom: none;
+      gap: 8px;
+      margin-bottom: -2px;
+    }
+
+    .nav-tabs-custom .nav-link {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #64748b;
+      border: none;
+      padding: 10px 32px;
+      border-radius: 8px 8px 0 0;
+      transition: all 0.2s ease;
+      background: rgba(248, 250, 252, 0.7);
+    }
+
+    .nav-tabs-custom .nav-link:hover {
+      color: #0f172a;
+      background-color: #f1f5f9;
+      border: none;
+    }
+
+    .nav-tabs-custom .nav-link.active {
+      color: #ffffff;
+      border: none;
+    }
+
+    .nav-tabs-custom #encode-tab.active {
+      background-color: #00a8ff;
+      box-shadow: 0 4px 12px rgba(0, 168, 255, 0.25);
+    }
+
+    .nav-tabs-custom #decode-tab.active {
+      background-color: #546e7a;
+      box-shadow: 0 4px 12px rgba(84, 110, 122, 0.25);
+    }
+
+    /* Core Action Buttons */
+    .btn-action {
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 12px 30px;
+      border-radius: 8px;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-encode {
+      background-color: #00a8ff;
+      color: white;
+    }
+
+    .btn-encode:hover {
+      background-color: #0096e0;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 168, 255, 0.2);
+    }
+
+    .btn-decode {
+      background-color: #546e7a;
+      color: white;
+    }
+
+    .btn-decode:hover {
+      background-color: #455a64;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(84, 110, 122, 0.2);
+    }
+
+    .panel-icon-btn {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      transition: color 0.2s;
+    }
+
+    .panel-icon-btn:hover {
+      color: #ef4444;
+    }
+
+    .panel-icon-btn.copy:hover {
+      color: #3b82f6;
+    }
+
+    .panel-icon-btn.paste:hover {
+      color: #10b981;
+    }
+
+    /* Loading Overlay */
     #loadingScreen {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(4px);
       z-index: 9999;
       display: none;
     }
 
     #loadingScreen.show {
       display: flex;
-      justify-content: center;
+      justifyContent: center;
       align-items: center;
       flex-direction: column;
     }
 
     .loading-text {
       margin-top: 20px;
-      font-size: 1.5rem;
-      color: white;
-      font-weight: bold;
+      font-size: 1.25rem;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* Modern Footer */
+    .footer {
+      background-color: #0f172a;
+      color: #94a3b8;
+      padding: 30px 0;
+      margin-top: 60px;
+    }
+
+    .footer a {
+      color: #38bdf8;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer a:hover {
+      color: #7dd3fc;
+      text-decoration: underline;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Loading Screen -->
   <div id="loadingScreen">
-    <div class="spinner-border text-light" style="width: 5rem; height: 5rem;" role="status">
+    <div class="spinner-border text-info" style="width: 4rem; height: 4rem;" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
-    <div class="loading-text" id="loadingMessage">
-      Processing...
+    <div class="loading-text" id="loadingMessage">Processing...</div>
+  </div>
+
+  <div class="top-header-bar px-4">
+    <div class="position-absolute start-0 ps-4">
+      <h1 class="brand-title">Stegveil</h1>
+    </div>
+    <div class="d-flex justify-content-center flex-grow-1">
+      <a href="https://github.com/Vaishnavi-pix/Steganography" target="_blank" class="header-link">Github</a>
+      <a href="https://google.com" target="_blank" class="header-link">Paper</a> 
+      <a href="https://youtube.com" target="_blank" class="header-link">Video Demonstration</a> 
+    </div>
+    <div class="position-absolute end-0 pe-4">
+      <a href="https://www.amazon.com" target="_blank" class="donate-link">Donate</a>
     </div>
   </div>
 
-  <div class="container">
-    <div class="row">
-      <center>
-        <h1 class="display-1"><strong><u>Steganography Demo</u></strong></h1>
-      </center>
+  <div class="container mt-5">
+    <div class="row mb-4 text-center">
+      <div class="col-12">
+        <h1 class="display-4 steg-title mb-2">Hiding Data in Plain Text with Generative AI [Beta]</h1>
+        <p class="text-muted fs-5 fw-normal">Linguistic Steganography Framework via Prepositional Encoding</p>
+      </div>
     </div>
 
-    <br><br>
+    <div class="row justify-content-center">
+      <div class="col-12 col-xl-10">
+        <div class="tab-nav-wrapper">
+          <ul class="nav nav-tabs nav-tabs-custom" id="stegTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="encode-tab" data-bs-toggle="tab" type="button" role="tab" aria-selected="true" onclick="switchMode('encode')">
+                <i class="bi bi-shield-lock-fill me-2"></i>Encode Message
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="decode-tab" data-bs-toggle="tab" type="button" role="tab" aria-selected="false" onclick="switchMode('decode')">
+                <i class="bi bi-unlock-fill me-2"></i>Decode Steg Text
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
 
-    <form>
-      <div class="row">
+    <form class="row justify-content-center">
+      <div class="col-12 col-xl-10">
+        
+        <div class="row mb-4" id="coverTextContainer">
+          <div class="col-12">
+            <div class="text-card-panel">
+              <label for="coverTextType" class="section-label mb-2 d-block">Cover Text Type</label>
+              <select class="form-select form-select-custom w-100" id="coverTextType">
+                <option value="email" selected>Email Generation</option>
+                <option value="narrative">Narrative Storytelling</option>
+                <option value="essay">Academic Essay</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row mb-4">
+          <div class="col-12">
+            <div class="text-card-panel">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <label for="inputText" class="section-label" id="inputLabel">Input Content</label>
+                <div class="d-flex align-items-center gap-2">
+                  <button type="button" class="panel-icon-btn paste" id="pasteInputButton" onclick="pasteFromClipboard()" title="Paste Text" style="display: none;">
+                    <i class="bi bi-clipboard2-plus-fill fs-5"></i>
+                  </button>
+                  <button type="button" class="panel-icon-btn" id="clearInputButton" onclick="clearInputText()" title="Clear Text">
+                    <i class="bi bi-trash3-fill fs-5"></i>
+                  </button>
+                </div>
+              </div>
 
-        <div class="col">
-          <div class="form-group">
-            <center>
-              <label for="inputText" class="display-6">Input</label>
-            </center>
-
-            <textarea class="form-control" id="inputText" rows="10"
-              style="border-width:10px; border-color:white; font-size:24px;"></textarea>
-
-            <br>
-
-            <button type="submit" class="btn btn-success"
-              onclick="doConversion(event)"
-              style="width:450px; margin-left:100px; font-size:x-large;">
-              Convert
-            </button>
+              <textarea class="form-control form-control-custom" id="inputText" rows="8"
+                placeholder="Enter your secret or payload message here... (Tip: Keeping your secret message under 50 characters works best for error-free encoding and decoding.) "></textarea>
+              
+              <div class="d-flex justify-content-end mt-2">
+                <small id="charCount" class="text-muted fw-semibold">0 / 45</small>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="col">
-          <div class="form-group">
-            <center>
-              <label for="outputText" class="display-6">Output Text</label>
-            </center>
-
-            <textarea class="form-control" id="outputText" rows="10"
-              style="border-width:10px; border-color:white; font-size:24px;"></textarea>
-
-            <br>
-
-            <button type="submit" class="btn btn-danger"
-              onclick="deConvert(event)"
-              style="width:450px; margin-left:100px; font-size:x-large;">
-              DeConvert
+        <div class="row mb-4 justify-content-center">
+          <div class="col-md-6 text-center">
+            <button type="button" id="mainActionButton" class="btn-action btn-encode w-100 shadow-sm" onclick="doConversion(event)">
+              <i class="bi bi-shield-lock-fill me-2"></i>Encode
             </button>
+          </div>
+        </div>
+   
+        <div class="row">
+          <div class="col-12">
+            <div class="text-card-panel">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <label for="outputText" class="section-label" id="outputLabel">Output Result</label>
+                <div class="d-flex align-items-center">
+                  <span id="copyMessage" class="me-2 text-success fw-bold visually-hidden" style="font-size: 0.9rem;">Copied!</span>
+                  <button type="button" class="panel-icon-btn copy" id="copyButton" onclick="copyOutputText()" title="Copy Text">
+                    <i class="bi bi-clipboard-fill fs-5"></i>
+                  </button>
+                </div>
+              </div>
+              
+              <textarea class="form-control form-control-custom bg-light" id="outputText" rows="8" readonly 
+                placeholder="The transformation results will appear here..."></textarea>
+            </div>
           </div>
         </div>
 
@@ -111,11 +419,81 @@
     </form>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+  <footer class="footer">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-10 d-flex justify-content-between align-items-center flex-column flex-md-row">
+          <div class="mb-3 mb-md-0">
+            <h4 class="text-white mb-1" style="font-family: 'Oswald', sans-serif; font-weight: 600;">Contact Details</h4>
+            <p class="small text-muted mb-0">Stegveil Experimental NLP Security Tooling</p>
+          </div>
+          <div class="text-md-end text-center">
+            <p class="mb-1">Email: <a href="mailto:navi.adidam@gmail.com">navi.adidam@gmail.com</a></p>
+            <p class="mb-0">Discord Integration: <a href="https://discord.com" target="_blank">Join Server</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
 
   <script>
+    let currentMode = 'encode';
+    const encodeMaxChars = 45;
+
+    function switchMode(mode) {
+      currentMode = mode;
+      const coverTextContainer = document.getElementById("coverTextContainer");
+      const inputLabel = document.getElementById("inputLabel");
+      const outputLabel = document.getElementById("outputLabel");
+      const inputText = document.getElementById("inputText");
+      const outputText = document.getElementById("outputText");
+      const mainActionButton = document.getElementById("mainActionButton");
+      const pasteInputButton = document.getElementById("pasteInputButton");
+
+      inputText.value = "";
+      outputText.value = "";
+
+      if (mode === 'encode') {
+        pasteInputButton.style.display = "none"; // Hide paste button in encode mode
+        coverTextContainer.style.display = "block";
+        inputLabel.innerText = "Input Content";
+        outputLabel.innerText = "Output Result";
+        inputText.placeholder = "Enter your secret or payload message here... (Tip: Keeping your secret message under 50 characters works best for error-free encoding and decoding.)";
+        
+        mainActionButton.className = "btn-action btn-encode w-100 shadow-sm";
+        mainActionButton.innerHTML = '<i class="bi bi-shield-lock-fill me-2"></i>Encode';
+        mainActionButton.onclick = doConversion;
+      } else {
+        pasteInputButton.style.display = "inline-block"; // Show paste button in decode mode
+        coverTextContainer.style.display = "none";
+        inputLabel.innerText = "Steg Text Input";
+        outputLabel.innerText = "Decoded Payload Output";
+        inputText.placeholder = "Paste your encrypted generated cover text here to read the hidden payload data...";
+        
+        mainActionButton.className = "btn-action btn-decode w-100 shadow-sm";
+        mainActionButton.innerHTML = '<i class="bi bi-unlock-fill me-2"></i>Decode';
+        mainActionButton.onclick = deConvert;
+      }
+      
+      updateCharCount();
+    }
+
+    // New action function to handle pasting directly from systemic navigator clipboard APIs
+    async function pasteFromClipboard() {
+      const inputText = document.getElementById("inputText");
+      try {
+        const text = await navigator.clipboard.readText();
+        inputText.value = text;
+        updateCharCount();
+      } catch (err) {
+        console.error("Failed to read clipboard contents: ", err);
+        alert("Clipboard access denied or unsupported. Please use Ctrl+V / Cmd+V to paste manually.");
+      }
+    }
 
     function showLoading(message = "Processing...") {
       document.getElementById("loadingMessage").innerText = message;
@@ -127,15 +505,17 @@
     }
 
     async function doConversion(event) {
-      event.preventDefault();
-
+      if(event) event.preventDefault();
       showLoading("Encoding hidden text...");
+
+      const coverType = document.getElementById("coverTextType").value;
 
       try {
         const response = await fetch("stegText", {
           method: "POST",
           body: JSON.stringify({
-            inputText: document.getElementById("inputText").value
+            inputText: document.getElementById("inputText").value,
+            coverType: coverType 
           }),
           headers: {
             "Content-Type": "application/json"
@@ -154,8 +534,7 @@
     }
 
     async function deConvert(event) {
-      event.preventDefault();
-
+      if(event) event.preventDefault();
       showLoading("Decoding hidden text...");
 
       try {
@@ -180,6 +559,57 @@
       }
     }
 
+    const inputTextarea = document.getElementById("inputText");
+    const outputTextarea = document.getElementById("outputText");
+    const charCountSpan = document.getElementById("charCount");
+
+    function updateCharCount() {
+      let currentLength = inputTextarea.value.length;
+
+      if (currentMode === 'encode') {
+        if (currentLength > encodeMaxChars) {
+          inputTextarea.value = inputTextarea.value.substring(0, encodeMaxChars);
+          currentLength = encodeMaxChars;
+        }
+        charCountSpan.textContent = `${currentLength} / ${encodeMaxChars}`;
+
+        if (currentLength >= encodeMaxChars) {
+          charCountSpan.classList.add("text-danger");
+          charCountSpan.classList.remove("text-muted");
+        } else {
+          charCountSpan.classList.remove("text-danger");
+          charCountSpan.classList.add("text-muted");
+        }
+      } else {
+        charCountSpan.textContent = `${currentLength} characters`;
+        charCountSpan.classList.remove("text-danger");
+        charCountSpan.classList.add("text-muted");
+      }
+    }
+
+    inputTextarea.addEventListener("input", updateCharCount);
+    inputTextarea.addEventListener("keyup", updateCharCount); 
+    updateCharCount();
+
+    function clearInputText() {
+      inputTextarea.value = '';
+      updateCharCount();
+    }
+
+    async function copyOutputText() {
+      const copyMessageSpan = document.getElementById("copyMessage");
+      try {
+        await navigator.clipboard.writeText(outputTextarea.value);
+        copyMessageSpan.classList.remove("visually-hidden");
+        
+        setTimeout(() => {
+          copyMessageSpan.classList.add("visually-hidden");
+        }, 2000);
+      } catch (err) {
+        console.error("Failed to copy text: ", err);
+        alert("Failed to copy text. Please copy manually.");
+      }
+    }
   </script>
 
 </body>

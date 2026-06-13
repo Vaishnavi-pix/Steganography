@@ -14,7 +14,7 @@
   "dependencies": {
     "@google-cloud/functions-framework": "^5.0.2",
     "@google/genai": "^1.5.1",
-    "dotenv": "^16.5.0",
+    "dotenv": "^16.6.1",
     "express": "^5.1.0",
     "ollama": "^0.5.15",
     "steganography": "file:"

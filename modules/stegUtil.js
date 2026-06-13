@@ -2,13 +2,12 @@ var hex_conversion = require("./hex_conversion.js");
 var prepoisition_conversion = require("./prepositionConvert.js");
 var google_gemini = require("./google_gemini.js");
 
-async function stegString(plainText) {
+async function stegString(plainText, coverType) {
     var hexValOfText = hex_conversion.convertToHex(plainText);
     console.log("hexValueof text: " +hexValOfText );
     var prepValOfHex = prepoisition_conversion.convertStrHexArrayToPrepositionArr(hexValOfText);
     console.log("prepValOfHex text: " +prepValOfHex );
-    var stegText = await google_gemini.genText(prepValOfHex);
-    
+    var stegText = await google_gemini.genText(prepValOfHex, coverType);
 
     return stegText;
 }

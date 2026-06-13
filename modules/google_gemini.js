@@ -11,11 +11,18 @@ if (!apiKey) {
 
 const ai = new genai.GoogleGenAI({ apiKey: apiKey });
 
-const promptTemplate = "Craft a concise and imaginative text, that seamlessly integrates the following word group. Word Group: ";
+// Add coverType directly to the function parameter list
+async function genText(words, coverType) {
+  
+    // Rephrased prompt to prioritize the coverType format
+    const prompt = `You are a writer specializing in creating a ${coverType}. 
 
-async function genText(words) {
-  // Use a clean, template-literal approach for the final prompt
-  const prompt = `${promptTemplate}${words}. Each word must be used only once, in the exact same order, and use no other prepositions.`;
+    Your task is to write exactly one ${coverType} that seamlessly integrates this specific word group: ${words}.
+    
+    CRITICAL RULES:
+    1. Format: The entire output must strictly be a ${coverType}. Do not write an essay, introduction, or generic text.
+    2. Word Order: Use each word from the group exactly once, in the precise order provided.
+    3. Grammar Constraint: Aside from the prepositions already present in the provided word group, you are strictly forbidden from adding any prepositions in this list: (in,on,at,by,for,with,about,against,between,into,through,during,before,after,above,below) to the text.`;
   
   console.log("Prompting Gemini:", prompt);
 
@@ -26,17 +33,15 @@ async function genText(words) {
     });
 
     const responseText = response.text || "";
-    // Clean markdown bolding characters
-    const ret = responseText.replace(/\*\*/g, '');
+    const ret = responseText.replace(/\*\*|\*/g, '');
 
     console.log("Gemini Cleaned Response:", ret);
     return ret;
 
   } catch (error) {
     console.error("Error calling Gemini API inside GCP Function:", error);
-    throw error; // Throw the error so your main Express app can handle it with a 500 status
+    throw error;
   }
 }
 
-// Keep your export matching your current app setup
 exports.genText = genText;

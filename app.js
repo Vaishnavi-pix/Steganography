@@ -12,15 +12,17 @@ app.use(express.json());
 app.post("/stegText", async (req, res) => {
   const inputJSON = req.body;
   const inputText = inputJSON.inputText;
+  const coverType = inputJSON.coverType || "email"; // Default to "email" if not provided
 
   if (!inputText) {
     return res.status(400).send("Missing 'inputText' in request body.");
   }
 
   try {
-    let stegText = await stegUtil.stegString(inputText);
+    let stegText = await stegUtil.stegString(inputText, coverType);
     return res.send(stegText);
-  } catch (error) {
+  } 
+  catch (error) {
     return res.status(500).send("Error encoding text.");
   }
 });
