@@ -41,15 +41,9 @@
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
-    .brand-title {
-      font-family: 'Oswald', sans-serif;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      margin-bottom: 0;
-      font-size: 1.75rem;
-      background: linear-gradient(to right, rgb(56, 189, 248), rgb(255, 255, 255));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .steggy_icon{
+      width: 70px;
+      height: auto;
     }
 
     .header-link {
@@ -308,15 +302,15 @@
 
   <div class="top-header-bar px-4">
     <div class="position-absolute start-0 ps-4">
-      <h1 class="brand-title">Stegveil</h1>
+      <img src="Steg_Veil.png" class="steggy_icon">
     </div>
     <div class="d-flex justify-content-center flex-grow-1">
       <a href="https://github.com/Vaishnavi-pix/Steganography" target="_blank" class="header-link">Github</a>
-      <a href="https://google.com" target="_blank" class="header-link">Paper</a> 
-      <a href="https://youtube.com" target="_blank" class="header-link">Video Demonstration</a> 
+      <a href="stegveil_paper.pdf" target="_blank" download="stegveil_paper" class="header-link">Paper</a> 
+      <a href="https://www.youtube.com/watch?v=HL0nA5bEacM" target="_blank" class="header-link">Video Demonstration</a> 
     </div>
     <div class="position-absolute end-0 pe-4">
-      <a href="https://www.amazon.com" target="_blank" class="donate-link">Donate</a>
+      <a href="https://ko-fi.com/stegveil" target="_blank" class="donate-link">Donate</a>
     </div>
   </div>
 
@@ -379,7 +373,7 @@
               </div>
 
               <textarea class="form-control form-control-custom" id="inputText" rows="8"
-                placeholder="Enter your secret or payload message here... (Tip: Keeping your secret message under 50 characters works best for error-free encoding and decoding.) "></textarea>
+                placeholder="Enter your secret message here..."></textarea>
               
               <div class="d-flex justify-content-end mt-2">
                 <small id="charCount" class="text-muted fw-semibold">0 / 45</small>
@@ -428,8 +422,8 @@
             <p class="small text-muted mb-0">Stegveil Experimental NLP Security Tooling</p>
           </div>
           <div class="text-md-end text-center">
-            <p class="mb-1">Email: <a href="mailto:navi.adidam@gmail.com">navi.adidam@gmail.com</a></p>
-            <p class="mb-0">Discord Integration: <a href="https://discord.com" target="_blank">Join Server</a></p>
+            <p class="mb-1">Email: <a href="mailto:contact@stegveil.dev">contact@stegveil.dev</a></p>
+            <p class="mb-0">Discord Integration: <a href="https://discord.gg/ZPPRG7zRqd" target="_blank">Join Server</a></p>
           </div>
         </div>
       </div>
@@ -462,7 +456,7 @@
         coverTextContainer.style.display = "block";
         inputLabel.innerText = "Input Content";
         outputLabel.innerText = "Output Result";
-        inputText.placeholder = "Enter your secret or payload message here... (Tip: Keeping your secret message under 50 characters works best for error-free encoding and decoding.)";
+        inputText.placeholder = "Enter your secret message here...";
         
         mainActionButton.className = "btn-action btn-encode w-100 shadow-sm";
         mainActionButton.innerHTML = '<i class="bi bi-shield-lock-fill me-2"></i>Encode';
