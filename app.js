@@ -14,12 +14,14 @@ app.post("/stegText", async (req, res) => {
   const inputText = inputJSON.inputText;
   const coverType = inputJSON.coverType || "email"; // Default to "email" if not provided
 
+const password = inputJSON.password || ""; // Default to empty string if not provided
+
   if (!inputText) {
     return res.status(400).send("Missing 'inputText' in request body.");
   }
 
   try {
-    let stegText = await stegUtil.stegString(inputText, coverType);
+    let stegText = await stegUtil.stegString(inputText, coverType, password);
     return res.send(stegText);
   } 
   catch (error) {
@@ -30,13 +32,14 @@ app.post("/stegText", async (req, res) => {
 app.post("/deStegText", async (req, res) => {
   const inputJSON = req.body;
   const inputText = inputJSON.inputText;
+  const password = inputJSON.password || "";
 
   if (!inputText) {
     return res.status(400).send("Missing 'inputText' in request body.");
   }
 
   try {
-    let clearText = stegUtil.deStegText(inputText);
+    let clearText = stegUtil.deStegText(inputText, password);
     return res.send(clearText);
   } catch (error) {
     return res.status(500).send("Error decoding text.");

@@ -1,4 +1,5 @@
 var hex = require("./hex_conversion.js");
+var randomizer = require("./randomizer.js");
 
 var prepositions = [
   "in",
@@ -22,8 +23,10 @@ var prepositions = [
 
 
 //Converts a string to an array of prepositions.
-function convertToPrepositionArray(inputStr) {
+function convertToPrepositionArray(inputStr, password) {
     let ret=[];
+    let randomPrepArray = randomizer.getRandomPrepositionArray(password);
+    prepositions = randomPrepArray;
     let hexArray = hex.convertToHex(inputStr); //Converts  each char in a string to a 2 digit hex value
     
     ret = convertStrHexArrayToPrepositionArr(hexArray);
@@ -58,8 +61,11 @@ function getPrepositionList() {
 
 //Converts the preposition array to a reverse array
 //Example: ret["in"] == 0 in hex 
-function convertPrepositionToAssociativeArray() {
+function convertPrepositionToAssociativeArray(password) {
       let ret = [];
+      let randomPrepArray = randomizer.getRandomPrepositionArray(password);
+      prepositions = randomPrepArray;
+      
       for (var i=0; i<prepositions.length; i++) {
          ret[prepositions[i]] = i; //Exmple ret["in"] == 0
       }
@@ -67,8 +73,8 @@ function convertPrepositionToAssociativeArray() {
       return ret;
 }
 
-function convertPrepositionArrayToHex(prepositionArray) {
-    var reversePrepArray = convertPrepositionToAssociativeArray();
+function convertPrepositionArrayToHex(prepositionArray, password) {
+    var reversePrepArray = convertPrepositionToAssociativeArray(password);
    
     let ret = [];
 

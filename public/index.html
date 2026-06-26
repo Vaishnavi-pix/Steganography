@@ -288,6 +288,28 @@
       color: #7dd3fc;
       text-decoration: underline;
     }
+    /* Custom animated dropdown for cover text type */
+    .custom-select-wrapper { position: relative; width: 100%; }
+    .custom-select-button { width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+    .custom-select-list {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(100% + 8px);
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      box-shadow: 0 6px 22px rgba(2,6,23,0.06);
+      transition: max-height 260ms cubic-bezier(.2,.9,.2,1), opacity 180ms ease;
+      pointer-events: none;
+      z-index: 50;
+    }
+    .custom-select-list.open { max-height: 260px; opacity: 1; pointer-events: auto; }
+    .custom-select-item { padding: 10px 14px; cursor: pointer; font-weight: 600; color: #334155; }
+    .custom-select-item:hover, .custom-select-item[aria-selected="true"] { background: #f8fafc; }
   </style>
 </head>
 
@@ -342,28 +364,113 @@
     </div>
 
     <form class="row justify-content-center">
-      <div class="col-12 col-xl-10">
+      <div id="mainCol" class="col-12 col-xl-10">
         
         <div class="row mb-4" id="coverTextContainer">
           <div class="col-12">
             <div class="text-card-panel">
               <label for="coverTextType" class="section-label mb-2 d-block">Cover Text Type</label>
-              <select class="form-select form-select-custom w-100" id="coverTextType">
+              <select id="coverTextType" style="display:none;">
                 <option value="email" selected>Email Generation</option>
                 <option value="narrative">Narrative Storytelling</option>
                 <option value="essay">Academic Essay</option>
               </select>
+
+              <div id="coverCustom" class="custom-select-wrapper w-100">
+                <button id="coverSelectButton" type="button" class="form-select-custom custom-select-button" aria-haspopup="listbox" aria-expanded="false">Email Generation</button>
+                <ul id="coverSelectList" class="custom-select-list" role="listbox" tabindex="-1">
+                  <li class="custom-select-item" data-value="email" role="option" aria-selected="true">Email Generation</li>
+                  <li class="custom-select-item" data-value="narrative" role="option">Narrative Storytelling</li>
+                  <li class="custom-select-item" data-value="essay" role="option">Academic Essay</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
         
-        <div class="row mb-4">
+        <div id="passwordPanelEncodeRow" class="row mb-3">
+          <div class="col-12">
+            <div class="text-card-panel">
+              <div class="mb-0">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <label for="passwordInputEncode" class="section-label mb-0">Password</label>
+                  <div class="d-flex align-items-center gap-2">
+                    <button type="button" id="copyPasswordBtnEncode" class="panel-icon-btn copy" onclick="copyPassword('encode')" title="Copy Password">
+                      <i class="bi bi-clipboard-fill fs-5"></i>
+                    </button>
+                    <button type="button" id="pastePasswordBtnEncode" class="panel-icon-btn paste" onclick="pastePassword('encode')" title="Paste Password">
+                      <i class="bi bi-clipboard2-plus-fill fs-5"></i>
+                    </button>
+                    <button type="button" id="clearPasswordBtnEncode" class="panel-icon-btn" onclick="clearPassword('encode')" title="Clear Password">
+                      <i class="bi bi-trash3-fill fs-5"></i>
+                    </button>
+                    <span id="passwordCopiedMsgEncode" class="ms-2 text-success visually-hidden" style="font-size:0.95rem;">Copied!</span>
+                  </div>
+                </div>
+
+                <div class="d-flex align-items-center gap-2">
+                  <input type="password" id="passwordInputEncode" class="form-control form-control-custom flex-grow-1" placeholder="Enter password" maxlength="125">
+                  <button type="button" id="togglePasswordBtnEncode" class="panel-icon-btn" onclick="togglePasswordVisibility('encode')" title="Show/Hide Password">
+                    <i id="togglePasswordIconEncode" class="bi bi-eye fs-5"></i>
+                  </button>
+                </div>
+
+                <div class="d-flex mt-2">
+                  <div class="flex-grow-1">
+                    <small id="passwordNoteEncode" class="text-muted d-block">Don't lose this password — you'll need it to decode. Enter no password to use the default key.</small>
+                  </div>
+                  <small id="passwordCharCountEncode" class="text-muted fw-semibold">0 / 125</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="passwordPanelDecodeRow" class="row mb-3" style="display:none;">
+          <div class="col-12">
+            <div class="text-card-panel">
+              <div class="mb-0">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <label for="passwordInputDecode" class="section-label mb-0">Password</label>
+                  <div class="d-flex align-items-center gap-2">
+                    <button type="button" id="copyPasswordBtnDecode" class="panel-icon-btn copy" onclick="copyPassword('decode')" title="Copy Password">
+                      <i class="bi bi-clipboard-fill fs-5"></i>
+                    </button>
+                    <button type="button" id="pastePasswordBtnDecode" class="panel-icon-btn paste" onclick="pastePassword('decode')" title="Paste Password">
+                      <i class="bi bi-clipboard2-plus-fill fs-5"></i>
+                    </button>
+                    <button type="button" id="clearPasswordBtnDecode" class="panel-icon-btn" onclick="clearPassword('decode')" title="Clear Password">
+                      <i class="bi bi-trash3-fill fs-5"></i>
+                    </button>
+                    <span id="passwordCopiedMsgDecode" class="ms-2 text-success visually-hidden" style="font-size:0.95rem;">Copied!</span>
+                  </div>
+                </div>
+
+                <div class="d-flex align-items-center gap-2">
+                  <input type="password" id="passwordInputDecode" class="form-control form-control-custom flex-grow-1" placeholder="Enter password" maxlength="125">
+                  <button type="button" id="togglePasswordBtnDecode" class="panel-icon-btn" onclick="togglePasswordVisibility('decode')" title="Show/Hide Password">
+                    <i id="togglePasswordIconDecode" class="bi bi-eye fs-5"></i>
+                  </button>
+                </div>
+
+                <div class="d-flex mt-2">
+                  <div class="flex-grow-1">
+                    <small id="passwordNoteDecode" class="text-muted d-block">If no password is entered, the default key will be used.</small>
+                  </div>
+                  <small id="passwordCharCountDecode" class="text-muted fw-semibold">0 / 125</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="inputPanelRow" class="row mb-4">
           <div class="col-12">
             <div class="text-card-panel">
               <div class="d-flex justify-content-between align-items-center mb-3">
                 <label for="inputText" class="section-label" id="inputLabel">Input Content</label>
                 <div class="d-flex align-items-center gap-2">
-                  <button type="button" class="panel-icon-btn paste" id="pasteInputButton" onclick="pasteFromClipboard()" title="Paste Text" style="display: none;">
+                  <button type="button" class="panel-icon-btn paste" id="pasteInputButton" onclick="pasteFromClipboard()" title="Paste Text" style="display: inline-block;">
                     <i class="bi bi-clipboard2-plus-fill fs-5"></i>
                   </button>
                   <button type="button" class="panel-icon-btn" id="clearInputButton" onclick="clearInputText()" title="Clear Text">
@@ -389,8 +496,10 @@
             </button>
           </div>
         </div>
+        
+        <!-- Separate password panels for Encode and Decode (keeps values independent) -->
    
-        <div class="row">
+        <div id="outputPanelRow" class="row">
           <div class="col-12">
             <div class="text-card-panel">
               <div class="d-flex justify-content-between align-items-center mb-3">
@@ -402,7 +511,6 @@
                   </button>
                 </div>
               </div>
-              
               <textarea class="form-control form-control-custom bg-light" id="outputText" rows="8" readonly 
                 placeholder="The transformation results will appear here..."></textarea>
             </div>
@@ -437,22 +545,44 @@
   <script>
     let currentMode = 'encode';
     const encodeMaxChars = 45;
+    // Per-mode storage so encode/decode have separate text boxes
+    let encodeInput = '';
+    let encodeOutput = '';
+    let decodeInput = '';
+    let decodeOutput = '';
+    // Separate password storage for encode/decode so edits don't mirror
+    let encodePassword = '';
+    let decodePassword = '';
 
     function switchMode(mode) {
+      // store previous mode values first
+      const previousMode = currentMode;
+      const inputText = document.getElementById("inputText");
+      const outputText = document.getElementById("outputText");
+      const pwdEncode = document.getElementById('passwordInputEncode');
+      const pwdDecode = document.getElementById('passwordInputDecode');
+
+      if (previousMode === 'encode') {
+        encodeInput = inputText ? inputText.value : encodeInput;
+        encodeOutput = outputText ? outputText.value : encodeOutput;
+        encodePassword = pwdEncode ? pwdEncode.value : encodePassword;
+      } else {
+        decodeInput = inputText ? inputText.value : decodeInput;
+        decodeOutput = outputText ? outputText.value : decodeOutput;
+        decodePassword = pwdDecode ? pwdDecode.value : decodePassword;
+      }
       currentMode = mode;
       const coverTextContainer = document.getElementById("coverTextContainer");
       const inputLabel = document.getElementById("inputLabel");
       const outputLabel = document.getElementById("outputLabel");
-      const inputText = document.getElementById("inputText");
-      const outputText = document.getElementById("outputText");
+      // references to input/output already obtained above
       const mainActionButton = document.getElementById("mainActionButton");
       const pasteInputButton = document.getElementById("pasteInputButton");
 
-      inputText.value = "";
-      outputText.value = "";
+      // Preserve input/output text when switching modes; user controls clearing
 
       if (mode === 'encode') {
-        pasteInputButton.style.display = "none"; // Hide paste button in encode mode
+        pasteInputButton.style.display = "inline-block"; // Show paste button in encode mode
         coverTextContainer.style.display = "block";
         inputLabel.innerText = "Input Content";
         outputLabel.innerText = "Output Result";
@@ -461,6 +591,10 @@
         mainActionButton.className = "btn-action btn-encode w-100 shadow-sm";
         mainActionButton.innerHTML = '<i class="bi bi-shield-lock-fill me-2"></i>Encode';
         mainActionButton.onclick = doConversion;
+
+        // show encode password panel, hide decode panel
+        document.getElementById('passwordPanelEncodeRow').style.display = '';
+        document.getElementById('passwordPanelDecodeRow').style.display = 'none';
       } else {
         pasteInputButton.style.display = "inline-block"; // Show paste button in decode mode
         coverTextContainer.style.display = "none";
@@ -471,8 +605,60 @@
         mainActionButton.className = "btn-action btn-decode w-100 shadow-sm";
         mainActionButton.innerHTML = '<i class="bi bi-unlock-fill me-2"></i>Decode';
         mainActionButton.onclick = deConvert;
+
+        // show decode password panel, hide encode panel
+        document.getElementById('passwordPanelEncodeRow').style.display = 'none';
+        document.getElementById('passwordPanelDecodeRow').style.display = '';
       }
-      
+      // Restore per-mode text values into the visible textareas
+      if (inputText) inputText.value = (mode === 'encode' ? (encodeInput || '') : (decodeInput || ''));
+      if (outputText) outputText.value = (mode === 'encode' ? (encodeOutput || '') : (decodeOutput || ''));
+      // restore the appropriate password for the mode without mirroring edits
+      const pwdEncodeRestore = document.getElementById('passwordInputEncode');
+      const pwdDecodeRestore = document.getElementById('passwordInputDecode');
+      if (pwdEncodeRestore) pwdEncodeRestore.value = encodePassword || '';
+      if (pwdDecodeRestore) pwdDecodeRestore.value = decodePassword || '';
+      // update the char count displays for both
+      if (typeof updatePasswordCharCount === 'function') {
+        updatePasswordCharCount('encode');
+        updatePasswordCharCount('decode');
+      }
+
+      // Move the password panel to be its own card above the chosen panel
+      const passwordPanel = document.getElementById('passwordPanelRow');
+      const mainCol = document.getElementById('mainCol');
+      const inputPanel = document.getElementById('inputPanelRow');
+      const outputPanel = document.getElementById('outputPanelRow');
+      const passwordInput = document.getElementById('passwordInput');
+      const passwordNote = document.getElementById('passwordNote');
+      const copyPasswordBtn = document.getElementById('copyPasswordBtn');
+      const pastePasswordBtn = document.getElementById('pastePasswordBtn');
+      const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+      if (passwordPanel && mainCol) {
+        if (mode === 'encode') {
+          if (inputPanel) mainCol.insertBefore(passwordPanel, inputPanel);
+          if (passwordInput) {
+            // make editable and use the same white background as the input textarea
+            passwordInput.readOnly = false;
+            passwordInput.classList.remove('bg-light');
+          }
+          if (passwordNote) passwordNote.classList.remove('visually-hidden');
+          if (copyPasswordBtn) copyPasswordBtn.style.display = 'inline-block';
+          if (pastePasswordBtn) pastePasswordBtn.style.display = 'none';
+          if (togglePasswordBtn) togglePasswordBtn.style.display = 'inline-block';
+        } else {
+          if (inputPanel) mainCol.insertBefore(passwordPanel, inputPanel);
+          if (passwordInput) {
+            passwordInput.readOnly = false;
+            passwordInput.classList.remove('bg-light');
+          }
+          if (passwordNote) passwordNote.classList.add('visually-hidden');
+          if (copyPasswordBtn) copyPasswordBtn.style.display = 'none';
+          if (pastePasswordBtn) pastePasswordBtn.style.display = 'inline-block';
+          if (togglePasswordBtn) togglePasswordBtn.style.display = 'inline-block';
+        }
+      }
+
       updateCharCount();
     }
 
@@ -488,6 +674,82 @@
         alert("Clipboard access denied or unsupported. Please use Ctrl+V / Cmd+V to paste manually.");
       }
     }
+
+    // Custom animated dropdown (accordion-style) for coverTextType
+    (function setupCustomCoverDropdown(){
+      const nativeSelect = document.getElementById('coverTextType');
+      const button = document.getElementById('coverSelectButton');
+      const list = document.getElementById('coverSelectList');
+      if (!nativeSelect || !button || !list) return;
+
+      const items = Array.from(list.querySelectorAll('.custom-select-item'));
+
+      const openList = () => {
+        list.classList.add('open');
+        button.setAttribute('aria-expanded', 'true');
+      };
+      const closeList = () => {
+        list.classList.remove('open');
+        button.setAttribute('aria-expanded', 'false');
+      };
+
+      // Toggle on button click
+      button.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (list.classList.contains('open')) closeList(); else openList();
+      });
+
+      // helper to set button label while preserving icon
+      const setButtonLabel = (label) => { button.innerHTML = label + ' <i class="bi bi-caret-down-fill"></i>'; };
+
+      // Select item
+      items.forEach((it, idx) => {
+        it.addEventListener('click', (e) => {
+          const v = it.getAttribute('data-value');
+          // update native select
+          nativeSelect.value = v;
+          // update button text
+          setButtonLabel(it.textContent.trim());
+          // mark selected
+          items.forEach(i => i.setAttribute('aria-selected', 'false'));
+          it.setAttribute('aria-selected', 'true');
+          closeList();
+          nativeSelect.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+        // keyboard navigation on items
+        it.addEventListener('keydown', (ev) => {
+          if (ev.key === 'Enter' || ev.key === ' ') {
+            ev.preventDefault(); it.click();
+          } else if (ev.key === 'ArrowDown') {
+            ev.preventDefault(); const next = items[idx+1] || items[0]; next.focus();
+          } else if (ev.key === 'ArrowUp') {
+            ev.preventDefault(); const prev = items[idx-1] || items[items.length-1]; prev.focus();
+          } else if (ev.key === 'Escape') {
+            closeList(); button.focus();
+          }
+        });
+        it.tabIndex = 0;
+      });
+
+      // Close when clicking outside
+      document.addEventListener('click', (e) => { if (!list.contains(e.target) && e.target !== button) closeList(); });
+
+      // Close on blur of button
+      button.addEventListener('blur', () => setTimeout(() => { if (document.activeElement && !list.contains(document.activeElement)) closeList(); }, 150));
+
+      // Keyboard open via button
+      button.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown' || e.key === ' ') {
+          e.preventDefault(); openList(); items[0].focus();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault(); openList(); items[items.length-1].focus();
+        }
+      });
+
+      // init button text from native select
+      const initOption = nativeSelect.querySelector('option:checked');
+      if (initOption) setButtonLabel(initOption.textContent.trim());
+    })();
 
     function showLoading(message = "Processing...") {
       document.getElementById("loadingMessage").innerText = message;
@@ -508,9 +770,10 @@
         const response = await fetch("stegText", {
           method: "POST",
           body: JSON.stringify({
-            inputText: document.getElementById("inputText").value,
-            coverType: coverType 
-          }),
+              inputText: document.getElementById("inputText").value,
+              coverType: coverType,
+              password: document.getElementById("passwordInputEncode").value
+            }),
           headers: {
             "Content-Type": "application/json"
           }
@@ -535,8 +798,9 @@
         const response = await fetch("deStegText", {
           method: "POST",
           body: JSON.stringify({
-            inputText: document.getElementById("inputText").value
-          }),
+              inputText: document.getElementById("inputText").value,
+              password: document.getElementById("passwordInputDecode").value
+            }),
           headers: {
             "Content-Type": "application/json"
           }
@@ -583,7 +847,47 @@
 
     inputTextarea.addEventListener("input", updateCharCount);
     inputTextarea.addEventListener("keyup", updateCharCount); 
-    updateCharCount();
+      updateCharCount();
+    // Ensure UI elements (password wrapper placement & readonly state) match current mode on load
+    switchMode(currentMode);
+
+    // Password character count handling (per-mode)
+    function updatePasswordCharCount(mode) {
+      const id = mode === 'decode' ? 'passwordInputDecode' : 'passwordInputEncode';
+      const countId = mode === 'decode' ? 'passwordCharCountDecode' : 'passwordCharCountEncode';
+      const pwd = document.getElementById(id);
+      const countEl = document.getElementById(countId);
+      if (!pwd || !countEl) return;
+      const len = pwd.value.length;
+      countEl.textContent = `${len} / 125`;
+      if (len >= 125) {
+        countEl.classList.remove('text-muted');
+        countEl.classList.add('text-danger');
+      } else {
+        countEl.classList.remove('text-danger');
+        countEl.classList.add('text-muted');
+      }
+    }
+
+    // wire up both password inputs
+    const pwdInputEncodeEl = document.getElementById('passwordInputEncode');
+    if (pwdInputEncodeEl) {
+      pwdInputEncodeEl.addEventListener('input', () => updatePasswordCharCount('encode'));
+      pwdInputEncodeEl.addEventListener('keyup', () => updatePasswordCharCount('encode'));
+      updatePasswordCharCount('encode');
+    }
+    const pwdInputDecodeEl = document.getElementById('passwordInputDecode');
+    if (pwdInputDecodeEl) {
+      pwdInputDecodeEl.addEventListener('input', () => updatePasswordCharCount('decode'));
+      pwdInputDecodeEl.addEventListener('keyup', () => updatePasswordCharCount('decode'));
+      updatePasswordCharCount('decode');
+    }
+
+    // initialize toggle icon state
+    const toggleIconEncode = document.getElementById('togglePasswordIconEncode');
+    const toggleIconDecode = document.getElementById('togglePasswordIconDecode');
+    if (toggleIconEncode) toggleIconEncode.className = 'bi bi-eye fs-5';
+    if (toggleIconDecode) toggleIconDecode.className = 'bi bi-eye fs-5';
 
     function clearInputText() {
       inputTextarea.value = '';
@@ -603,6 +907,73 @@
         console.error("Failed to copy text: ", err);
         alert("Failed to copy text. Please copy manually.");
       }
+    }
+
+    async function copyPassword(mode) {
+      const id = mode === 'decode' ? 'passwordInputDecode' : 'passwordInputEncode';
+      const msgId = mode === 'decode' ? 'passwordCopiedMsgDecode' : 'passwordCopiedMsgEncode';
+      const pwd = document.getElementById(id).value || '';
+      const msg = document.getElementById(msgId);
+      try {
+        await navigator.clipboard.writeText(pwd);
+        if (msg) {
+          msg.classList.remove('visually-hidden');
+          setTimeout(() => msg.classList.add('visually-hidden'), 2000);
+        }
+      } catch (err) {
+        console.error('Failed to copy password: ', err);
+        alert('Failed to copy password. Please copy manually.');
+      }
+    }
+
+    async function pastePassword(mode) {
+      const id = mode === 'decode' ? 'passwordInputDecode' : 'passwordInputEncode';
+      const pwdEl = document.getElementById(id);
+      try {
+        const text = await navigator.clipboard.readText();
+        if (pwdEl) {
+          pwdEl.value = text;
+          updatePasswordCharCount(mode);
+          if (mode === 'encode') encodePassword = pwdEl.value;
+          else decodePassword = pwdEl.value;
+        }
+      } catch (err) {
+        console.error('Failed to read clipboard for password: ', err);
+        alert('Failed to read from clipboard. Please paste manually.');
+      }
+    }
+
+    function togglePasswordVisibility(mode) {
+      const id = mode === 'decode' ? 'passwordInputDecode' : 'passwordInputEncode';
+      const iconId = mode === 'decode' ? 'togglePasswordIconDecode' : 'togglePasswordIconEncode';
+      const pwdEl = document.getElementById(id);
+      const icon = document.getElementById(iconId);
+      if (!pwdEl || !icon) return;
+      if (pwdEl.type === 'password') {
+        pwdEl.type = 'text';
+        icon.className = 'bi bi-eye-slash fs-5';
+      } else {
+        pwdEl.type = 'password';
+        icon.className = 'bi bi-eye fs-5';
+      }
+    }
+
+    function clearPassword(mode) {
+      const id = mode === 'decode' ? 'passwordInputDecode' : 'passwordInputEncode';
+      const msgId = mode === 'decode' ? 'passwordCopiedMsgDecode' : 'passwordCopiedMsgEncode';
+      const pwdEl = document.getElementById(id);
+      const msgEl = document.getElementById(msgId);
+      if (!pwdEl) return;
+      // clear the value and any attribute that may persist
+      try { pwdEl.value = ''; } catch (e) {}
+      try { pwdEl.setAttribute('value', ''); } catch (e) {}
+      // dispatch events so UI/state listeners update
+      try { pwdEl.dispatchEvent(new Event('input', { bubbles: true })); } catch (e) {}
+      try { pwdEl.dispatchEvent(new Event('change', { bubbles: true })); } catch (e) {}
+      updatePasswordCharCount(mode);
+      if (mode === 'encode') encodePassword = '';
+      else decodePassword = '';
+      if (msgEl) msgEl.classList.add('visually-hidden');
     }
   </script>
 
