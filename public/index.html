@@ -1,994 +1,632 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Stegveil: Hiding Data in Plain Text with Generative AI</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
-
-  <link rel="icon" href="Steg_Veil.png" sizes="any">
-
-  <style>
-    body {
-      font-family: "Quicksand", sans-serif;
-      color: #1e293b;
-      background-color: #ffffff;
-      /* Clean technical circuitry, magnifying lens, and blueprint schematic framework (text removed) */
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1920 1080' preserveAspectRatio='xMidYMid slice'%3E%3Cg fill='none' stroke='%23cbd5e1' stroke-width='1.5' stroke-opacity='0.4'%3E%3C!-- Left Circuit Node Structure --%3E%3Cpath d='M-50 400h150l60-60v-100m0 0l30-30h100m-130 30h-50m120-90h80v-50' /%3E%3Ccircle cx='190' cy='210' r='4' fill='%23cbd5e1' fill-opacity='0.3'/%3E%3Cpath d='M60 340l40 40v200l-50 50H10' /%3E%3Ccircle cx='100' cy='380' r='3'/%3E%3Cpath d='M160 340h120l40 40v150l30 30h60' /%3E%3Ccircle cx='410' cy='560' r='4' fill='%23cbd5e1' fill-opacity='0.3'/%3E%3C!-- Right Optics/Search Geometry --%3E%3Cg transform='translate(1650, 150)'%3E%3Ccircle cx='60' cy='60' r='45' stroke-width='2'/%3E%3Cline x1='92' y1='92' x2='140' y2='140' stroke-width='3'/%3E%3C/g%3E%3Cpath d='M1950 300h-150l-40 40v120l-30 30h-100m170-190v-80h-120l-20-20v-50' /%3E%3Ccircle cx='1610' cy='490' r='3'/%3E%3Cpath d='M1760 460v90l-40 40h-150l-30-30v-80' /%3E%3Ccircle cx='1540' cy='560' r='4' fill='%23cbd5e1' fill-opacity='0.3'/%3E%3C!-- Grid Infrastructure Accents --%3E%3Crect x='100' y='750' width='80' height='80' stroke-dasharray='4,4' stroke-opacity='0.2'/%3E%3Ccircle cx='140' cy='790' r='20' stroke-opacity='0.2'/%3E%3Cpath d='M1700 850m-30 0a30 30 0 1 0 60 0a30 30 0 1 0 -60 0M1650 850h130M1700 800v100' stroke-opacity='0.15'/%3E%3C/g%3E%3C/svg%3E");
-      background-size: cover;
-      background-position: center top;
-      background-attachment: fixed;
-      background-repeat: no-repeat;
-    }
-
-    /* Top Header Bar Styling */
-    .top-header-bar {
-      background-color: #0f172a;
-      display: flex;
-      justifyContent: center;
-      align-items: center;
-      padding: 14px 24px;
-      width: 100%;
-      box-sizing: border-box;
-      position: relative;
-      z-index: 1000;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    }
-
-    .steggy_icon{
-      width: 70px;
-      height: auto;
-    }
-
-    .header-link {
-      display: inline-block;
-      color: #0f172a;
-      background-color: #ffffff;
-      border: 1px solid #e2e8f0;
-      padding: 6px 16px;
-      margin: 0 8px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      border-radius: 4px;
-      transition: all 0.2s ease-in-out;
-    }
-
-    .header-link:hover {
-      background-color: #f1f5f9;
-      transform: translateY(-1px);
-      color: #0f172a;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stegveil</title>
     
-    .donate-link {
-      background-color: #3b82f6;
-      color: #ffffff !important;
-      padding: 6px 18px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      border-radius: 6px;
-      transition: all 0.2s ease-in-out;
-    }
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Oswald for condensed titles, Inter for body/ui, JetBrains Mono for code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    .donate-link:hover {
-      background-color: #2563eb;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-    }
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        condensed: ['Oswald', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        navdark: '#0e1726',
+                        brandcyan: '#00aeff',
+                        brandcyandark: '#008bca',
+                        cardbg: '#ffffff',
+                        bodybg: '#f8fafc',
+                        bordergray: '#e2e8f0',
+                        headingtext: '#0f172a',
+                        subtext: '#64748b'
+                    }
+                }
+            }
+        }
+    </script>
 
-    /* Typography & App Elements */
-    .steg-title {
-      font-family: 'Oswald', sans-serif;
-      font-weight: 700;
-      color: #0f172a;
-      letter-spacing: -0.5px;
-    }
+    <style>
+        /* Custom Circuit Vector Lines Background */
+        .circuit-bg {
+            background-color: #f8fafc;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 174, 255, 0.04) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 174, 255, 0.04) 0%, transparent 20%);
+        }
 
-    .section-label {
-      font-weight: 700;
-      color: #475569;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      font-size: 1.1rem;
-    }
+        .circuit-pattern-left {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 280px;
+            pointer-events: none;
+            opacity: 0.45;
+            background-image: url("data:image/svg+xml,%3Csvg width='280' height='800' viewBox='0 0 280 800' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M-50 100 H120 L180 160 V320 L240 380 H280' stroke='%23CBD5E1' stroke-width='1.5' stroke-dasharray='4 4'/%3E%3Cpath d='M-50 250 H40 L90 300 V520 L150 580 H280' stroke='%2300AEFF' stroke-width='1.5' opacity='0.5'/%3E%3Ccircle cx='180' cy='160' r='4' fill='%2300AEFF'/%3E%3Ccircle cx='240' cy='380' r='4' fill='%2394A3B8'/%3E%3Ccircle cx='90' cy='300' r='4' fill='%2300AEFF'/%3E%3Cpath d='M-50 600 H80 L140 660 H280' stroke='%23CBD5E1' stroke-width='1.5'/%3E%3Ccircle cx='140' cy='660' r='4' fill='%23CBD5E1'/%3E%3C/svg%3E");
+            background-repeat: repeat-y;
+        }
 
-    .text-card-panel {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-    }
+        .circuit-pattern-right {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 280px;
+            pointer-events: none;
+            opacity: 0.45;
+            background-image: url("data:image/svg+xml,%3Csvg width='280' height='800' viewBox='0 0 280 800' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M330 150 H160 L100 210 V400 L40 460 H0' stroke='%23CBD5E1' stroke-width='1.5'/%3E%3Cpath d='M330 350 H220 L170 400 V620 L110 680 H0' stroke='%2300AEFF' stroke-width='1.5' opacity='0.5'/%3E%3Ccircle cx='100' cy='210' r='4' fill='%2394A3B8'/%3E%3Ccircle cx='170' cy='400' r='4' fill='%2300AEFF'/%3E%3Ccircle cx='110' cy='680' r='4' fill='%23CBD5E1'/%3E%3C/svg%3E");
+            background-repeat: repeat-y;
+        }
 
-    .form-control-custom {
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      padding: 12px;
-      resize: none;
-      font-family: "Quicksand", sans-serif;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    .form-control-custom:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-      outline: 0;
-    }
-
-    /* Select Dropdown Enhancements */
-    .form-select-custom {
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      font-size: 1rem;
-      padding: 10px 14px;
-      font-family: "Quicksand", sans-serif;
-      font-weight: 600;
-      color: #334155;
-      background-color: #f8fafc;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    .form-select-custom:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-      outline: 0;
-    }
-
-    /* Centered Navigation Tabs Styles */
-    .tab-nav-wrapper {
-      display: flex;
-      justifyContent: center;
-      margin-bottom: 25px;
-      border-bottom: 2px solid #e2e8f0;
-    }
-
-    .nav-tabs-custom {
-      display: inline-flex;
-      border-bottom: none;
-      gap: 8px;
-      margin-bottom: -2px;
-    }
-
-    .nav-tabs-custom .nav-link {
-      font-family: 'Oswald', sans-serif;
-      font-size: 1.25rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #64748b;
-      border: none;
-      padding: 10px 32px;
-      border-radius: 8px 8px 0 0;
-      transition: all 0.2s ease;
-      background: rgba(248, 250, 252, 0.7);
-    }
-
-    .nav-tabs-custom .nav-link:hover {
-      color: #0f172a;
-      background-color: #f1f5f9;
-      border: none;
-    }
-
-    .nav-tabs-custom .nav-link.active {
-      color: #ffffff;
-      border: none;
-    }
-
-    .nav-tabs-custom #encode-tab.active {
-      background-color: #00a8ff;
-      box-shadow: 0 4px 12px rgba(0, 168, 255, 0.25);
-    }
-
-    .nav-tabs-custom #decode-tab.active {
-      background-color: #546e7a;
-      box-shadow: 0 4px 12px rgba(84, 110, 122, 0.25);
-    }
-
-    /* Core Action Buttons */
-    .btn-action {
-      font-weight: 600;
-      font-size: 1.1rem;
-      padding: 12px 30px;
-      border-radius: 8px;
-      border: none;
-      transition: all 0.2s ease;
-    }
-
-    .btn-encode {
-      background-color: #00a8ff;
-      color: white;
-    }
-
-    .btn-encode:hover {
-      background-color: #0096e0;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0, 168, 255, 0.2);
-    }
-
-    .btn-decode {
-      background-color: #546e7a;
-      color: white;
-    }
-
-    .btn-decode:hover {
-      background-color: #455a64;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(84, 110, 122, 0.2);
-    }
-
-    .panel-icon-btn {
-      background: none;
-      border: none;
-      color: #94a3b8;
-      transition: color 0.2s;
-    }
-
-    .panel-icon-btn:hover {
-      color: #ef4444;
-    }
-
-    .panel-icon-btn.copy:hover {
-      color: #3b82f6;
-    }
-
-    .panel-icon-btn.paste:hover {
-      color: #10b981;
-    }
-
-    /* Loading Overlay */
-    #loadingScreen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(15, 23, 42, 0.8);
-      backdrop-filter: blur(4px);
-      z-index: 9999;
-      display: none;
-    }
-
-    #loadingScreen.show {
-      display: flex;
-      justifyContent: center;
-      align-items: center;
-      flex-direction: column;
-    }
-
-    .loading-text {
-      margin-top: 20px;
-      font-size: 1.25rem;
-      color: #ffffff;
-      font-weight: 600;
-    }
-
-    /* Modern Footer */
-    .footer {
-      background-color: #0f172a;
-      color: #94a3b8;
-      padding: 30px 0;
-      margin-top: 60px;
-    }
-
-    .footer a {
-      color: #38bdf8;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .footer a:hover {
-      color: #7dd3fc;
-      text-decoration: underline;
-    }
-    /* Custom animated dropdown for cover text type */
-    .custom-select-wrapper { position: relative; width: 100%; }
-    .custom-select-button { width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center; }
-    .custom-select-list {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: calc(100% + 8px);
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      overflow: hidden;
-      max-height: 0;
-      opacity: 0;
-      box-shadow: 0 6px 22px rgba(2,6,23,0.06);
-      transition: max-height 260ms cubic-bezier(.2,.9,.2,1), opacity 180ms ease;
-      pointer-events: none;
-      z-index: 50;
-    }
-    .custom-select-list.open { max-height: 260px; opacity: 1; pointer-events: auto; }
-    .custom-select-item { padding: 10px 14px; cursor: pointer; font-weight: 600; color: #334155; }
-    .custom-select-item:hover, .custom-select-item[aria-selected="true"] { background: #f8fafc; }
-  </style>
+        /* Toast Modal Banner */
+        #launchModal {
+            transition: all 0.25s ease-in-out;
+        }
+    </style>
 </head>
+<body class="bg-bodybg text-slate-800 font-sans antialiased circuit-bg relative min-h-screen">
 
-<body>
+    <!-- Dark Navigation Header (Identical to reference navbar style) -->
+    <header class="bg-navdark text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            
+            <!-- Left Logo & Branding -->
+            <a href="home.html" class="flex items-center gap-3 group">
+                <div class="w-9 h-9 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center relative overflow-hidden group-hover:border-brandcyan transition-colors">
+                    <img src="Steg_Veil.png" alt="" class="h-full w-full object-cover">
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-condensed font-bold text-xl tracking-wider text-white uppercase leading-none">
+                        Steg<span class="text-brandcyan">veil</span>
+                    </span>
+                    <span class="text-[10px] text-slate-400 font-mono tracking-widest uppercase">Hide text</span>
+                </div>
+            </a>
 
-  <div id="loadingScreen">
-    <div class="spinner-border text-info" style="width: 4rem; height: 4rem;" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-    <div class="loading-text" id="loadingMessage">Processing...</div>
-  </div>
-
-  <div class="top-header-bar px-4">
-    <div class="position-absolute start-0 ps-4">
-      <img src="Steg_Veil.png" class="steggy_icon">
-    </div>
-    <div class="d-flex justify-content-center flex-grow-1">
-      <a href="https://github.com/Vaishnavi-pix/Steganography" target="_blank" class="header-link">Github</a>
-      <a href="stegveil_paper.pdf" target="_blank" download="stegveil_paper" class="header-link">Paper</a> 
-      <a href="https://www.youtube.com/watch?v=HL0nA5bEacM" target="_blank" class="header-link">Video Demonstration</a> 
-    </div>
-    <div class="position-absolute end-0 pe-4">
-      <a href="https://ko-fi.com/stegveil" target="_blank" class="donate-link">Donate</a>
-    </div>
-  </div>
-
-  <div class="container mt-5">
-    <div class="row mb-4 text-center">
-      <div class="col-12">
-        <h1 class="display-4 steg-title mb-2">Hiding Data in Plain Text with Generative AI [Beta]</h1>
-        <p class="text-muted fs-5 fw-normal">Linguistic Steganography Framework via Prepositional Encoding</p>
-      </div>
-    </div>
-
-    <div class="row justify-content-center">
-      <div class="col-12 col-xl-10">
-        <div class="tab-nav-wrapper">
-          <ul class="nav nav-tabs nav-tabs-custom" id="stegTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="encode-tab" data-bs-toggle="tab" type="button" role="tab" aria-selected="true" onclick="switchMode('encode')">
-                <i class="bi bi-shield-lock-fill me-2"></i>Encode Message
-              </button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="decode-tab" data-bs-toggle="tab" type="button" role="tab" aria-selected="false" onclick="switchMode('decode')">
-                <i class="bi bi-unlock-fill me-2"></i>Decode Steg Text
-              </button>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <form class="row justify-content-center">
-      <div id="mainCol" class="col-12 col-xl-10">
-        
-        <div class="row mb-4" id="coverTextContainer">
-          <div class="col-12">
-            <div class="text-card-panel">
-              <label for="coverTextType" class="section-label mb-2 d-block">Cover Text Type</label>
-              <select id="coverTextType" style="display:none;">
-                <option value="email" selected>Email Generation</option>
-                <option value="narrative">Narrative Storytelling</option>
-                <option value="essay">Academic Essay</option>
-              </select>
-
-              <div id="coverCustom" class="custom-select-wrapper w-100">
-                <button id="coverSelectButton" type="button" class="form-select-custom custom-select-button" aria-haspopup="listbox" aria-expanded="false">Email Generation</button>
-                <ul id="coverSelectList" class="custom-select-list" role="listbox" tabindex="-1">
-                  <li class="custom-select-item" data-value="email" role="option" aria-selected="true">Email Generation</li>
-                  <li class="custom-select-item" data-value="narrative" role="option">Narrative Storytelling</li>
-                  <li class="custom-select-item" data-value="essay" role="option">Academic Essay</li>
-                </ul>
-              </div>
+            <!-- Resource Links and Primary Action -->
+            <div class="hidden sm:flex items-center gap-2.5">
+                <a href="https://github.com/Vaishnavi-pix/Steganography" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 bg-white text-slate-900 rounded-md text-xs font-semibold hover:bg-slate-100 transition-colors shadow-sm flex items-center gap-1.5">
+                    <i class="fa-brands fa-github text-sm"></i> GitHub
+                </a>
+                <a href="stegveil_paper.pdf" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 bg-white text-slate-900 rounded-md text-xs font-semibold hover:bg-slate-100 transition-colors shadow-sm flex items-center gap-1.5">
+                    <i class="fa-regular fa-file-pdf text-sm text-red-600"></i> Paper
+                </a>
+                <a href="https://www.youtube.com/watch?v=HL0nA5bEacM" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 bg-white text-slate-900 rounded-md text-xs font-semibold hover:bg-slate-100 transition-colors shadow-sm flex items-center gap-1.5">
+                    <i class="fa-solid fa-play text-xs text-brandcyan"></i> Demo Video
+                </a>
+                <a href="demo.html" target="_blank" rel="noopener noreferrer" class="ml-2 px-4 py-1.5 bg-brandcyan hover:bg-brandcyandark text-white font-semibold text-xs rounded-md shadow transition-colors flex items-center gap-1">
+                    <i class="fa-solid fa-rocket text-xs"></i> Get Started
+                </a>
             </div>
-          </div>
+
+            <a href="demo.html" target="_blank" rel="noopener noreferrer" class="sm:hidden px-3 py-2 bg-brandcyan hover:bg-brandcyandark text-white font-semibold text-xs rounded-md shadow transition-colors flex items-center gap-1.5">
+                <i class="fa-solid fa-rocket text-xs"></i> Get Started
+            </a>
         </div>
-        
-        <div id="passwordPanelEncodeRow" class="row mb-3">
-          <div class="col-12">
-            <div class="text-card-panel">
-              <div class="mb-0">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <label for="passwordInputEncode" class="section-label mb-0">Password</label>
-                  <div class="d-flex align-items-center gap-2">
-                    <button type="button" id="copyPasswordBtnEncode" class="panel-icon-btn copy" onclick="copyPassword('encode')" title="Copy Password">
-                      <i class="bi bi-clipboard-fill fs-5"></i>
-                    </button>
-                    <button type="button" id="pastePasswordBtnEncode" class="panel-icon-btn paste" onclick="pastePassword('encode')" title="Paste Password">
-                      <i class="bi bi-clipboard2-plus-fill fs-5"></i>
-                    </button>
-                    <button type="button" id="clearPasswordBtnEncode" class="panel-icon-btn" onclick="clearPassword('encode')" title="Clear Password">
-                      <i class="bi bi-trash3-fill fs-5"></i>
-                    </button>
-                    <span id="passwordCopiedMsgEncode" class="ms-2 text-success visually-hidden" style="font-size:0.95rem;">Copied!</span>
-                  </div>
-                </div>
+    </header>
 
-                <div class="d-flex align-items-center gap-2">
-                  <input type="password" id="passwordInputEncode" class="form-control form-control-custom flex-grow-1" placeholder="Enter password" maxlength="125">
-                  <button type="button" id="togglePasswordBtnEncode" class="panel-icon-btn" onclick="togglePasswordVisibility('encode')" title="Show/Hide Password">
-                    <i id="togglePasswordIconEncode" class="bi bi-eye fs-5"></i>
-                  </button>
-                </div>
+    <!-- Hero Section -->
+    <section class="relative pt-12 pb-16 lg:pt-20 lg:pb-24 overflow-hidden z-10">
+        <!-- SVG Circuit Vector Patterns (Left & Right margins) -->
+        <div class="circuit-pattern-left hidden lg:block"></div>
+        <div class="circuit-pattern-right hidden lg:block"></div>
 
-                <div class="d-flex mt-2">
-                  <div class="flex-grow-1">
-                    <small id="passwordNoteEncode" class="text-muted d-block">Don't lose this password — you'll need it to decode. Enter no password to use the default key.</small>
-                  </div>
-                  <small id="passwordCharCountEncode" class="text-muted fw-semibold">0 / 125</small>
-                </div>
-              </div>
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-20">
+            
+            <!-- Quick Badge -->
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200/80 border border-slate-300 text-slate-700 text-xs font-semibold mb-6">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>OPEN SOURCE AI RESEARCH FRAMEWORK [V2.4 RELEASED]</span>
             </div>
-          </div>
-        </div>
 
-        <div id="passwordPanelDecodeRow" class="row mb-3" style="display:none;">
-          <div class="col-12">
-            <div class="text-card-panel">
-              <div class="mb-0">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <label for="passwordInputDecode" class="section-label mb-0">Password</label>
-                  <div class="d-flex align-items-center gap-2">
-                    <button type="button" id="copyPasswordBtnDecode" class="panel-icon-btn copy" onclick="copyPassword('decode')" title="Copy Password">
-                      <i class="bi bi-clipboard-fill fs-5"></i>
-                    </button>
-                    <button type="button" id="pastePasswordBtnDecode" class="panel-icon-btn paste" onclick="pastePassword('decode')" title="Paste Password">
-                      <i class="bi bi-clipboard2-plus-fill fs-5"></i>
-                    </button>
-                    <button type="button" id="clearPasswordBtnDecode" class="panel-icon-btn" onclick="clearPassword('decode')" title="Clear Password">
-                      <i class="bi bi-trash3-fill fs-5"></i>
-                    </button>
-                    <span id="passwordCopiedMsgDecode" class="ms-2 text-success visually-hidden" style="font-size:0.95rem;">Copied!</span>
-                  </div>
-                </div>
+            <!-- Condensed Bold Title matching the Reference Title Style -->
+            <h1 class="font-condensed font-extrabold text-4xl sm:text-6xl lg:text-7xl tracking-wide text-headingtext uppercase leading-none mb-4">
+                Generative AI & Linguistic <span class="text-brandcyan">Steganography</span>
+            </h1>
 
-                <div class="d-flex align-items-center gap-2">
-                  <input type="password" id="passwordInputDecode" class="form-control form-control-custom flex-grow-1" placeholder="Enter password" maxlength="125">
-                  <button type="button" id="togglePasswordBtnDecode" class="panel-icon-btn" onclick="togglePasswordVisibility('decode')" title="Show/Hide Password">
-                    <i id="togglePasswordIconDecode" class="bi bi-eye fs-5"></i>
-                  </button>
-                </div>
-
-                <div class="d-flex mt-2">
-                  <div class="flex-grow-1">
-                    <small id="passwordNoteDecode" class="text-muted d-block">If no password is entered, the default key will be used.</small>
-                  </div>
-                  <small id="passwordCharCountDecode" class="text-muted fw-semibold">0 / 125</small>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div id="inputPanelRow" class="row mb-4">
-          <div class="col-12">
-            <div class="text-card-panel">
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <label for="inputText" class="section-label" id="inputLabel">Input Content</label>
-                <div class="d-flex align-items-center gap-2">
-                  <button type="button" class="panel-icon-btn paste" id="pasteInputButton" onclick="pasteFromClipboard()" title="Paste Text" style="display: inline-block;">
-                    <i class="bi bi-clipboard2-plus-fill fs-5"></i>
-                  </button>
-                  <button type="button" class="panel-icon-btn" id="clearInputButton" onclick="clearInputText()" title="Clear Text">
-                    <i class="bi bi-trash3-fill fs-5"></i>
-                  </button>
-                </div>
-              </div>
-
-              <textarea class="form-control form-control-custom" id="inputText" rows="8"
-                placeholder="Enter your secret message here..."></textarea>
-              
-              <div class="d-flex justify-content-end mt-2">
-                <small id="charCount" class="text-muted fw-semibold">0 / 45</small>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row mb-4 justify-content-center">
-          <div class="col-md-6 text-center">
-            <button type="button" id="mainActionButton" class="btn-action btn-encode w-100 shadow-sm" onclick="doConversion(event)">
-              <i class="bi bi-shield-lock-fill me-2"></i>Encode
-            </button>
-          </div>
-        </div>
-        
-        <!-- Separate password panels for Encode and Decode (keeps values independent) -->
-   
-        <div id="outputPanelRow" class="row">
-          <div class="col-12">
-            <div class="text-card-panel">
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <label for="outputText" class="section-label" id="outputLabel">Output Result</label>
-                <div class="d-flex align-items-center">
-                  <span id="copyMessage" class="me-2 text-success fw-bold visually-hidden" style="font-size: 0.9rem;">Copied!</span>
-                  <button type="button" class="panel-icon-btn copy" id="copyButton" onclick="copyOutputText()" title="Copy Text">
-                    <i class="bi bi-clipboard-fill fs-5"></i>
-                  </button>
-                </div>
-              </div>
-              <textarea class="form-control form-control-custom bg-light" id="outputText" rows="8" readonly 
-                placeholder="The transformation results will appear here..."></textarea>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </form>
-  </div>
-
-  <footer class="footer">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-10">
-          <!-- Top Row: Contact Details and Links -->
-          <div class="d-flex justify-content-between align-items-center flex-column flex-md-row pb-3">
-            <div class="mb-3 mb-md-0">
-              <h4 class="text-white mb-1" style="font-family: 'Oswald', sans-serif; font-weight: 600;">Contact Details</h4>
-              <p class="small text-muted mb-0">Stegveil Experimental NLP Security Tooling</p>
-            </div>
-            <div class="text-md-end text-center">
-              <p class="mb-1">Email: <a href="mailto:contact@stegveil.dev">contact@stegveil.dev</a></p>
-              <p class="mb-0">Discord Integration: <a href="https://discord.gg/ZPPRG7zRqd" target="_blank">Join Server</a></p>
-            </div>
-          </div>
-          
-          <!-- Bottom Row: Full-Width Legal Disclaimer -->
-          <div class="border-top border-secondary pt-3 text-center text-md-start">
-            <p class="text-white-50 mb-0" style="font-size: 0.75rem; line-height: 1.4; letter-spacing: 0.3px;">
-              <strong class="text-white">Disclaimer:</strong> This tool is provided "as-is" for research purposes without warranties of any kind. The developer assumes zero liability for data loss, concealment failures, or any illicit use of this software. By clicking encode or decode, you assume full legal responsibility for your compliance with all applicable local, state, national, and international laws.
+            <!-- Subtitle -->
+            <p class="text-slate-600 text-base sm:text-xl max-w-3xl mx-auto font-normal leading-relaxed mb-8">
+                An open academic framework for stealth data transmission, prepositional text encoding, and neural carrier verification built for high-security plain text communication.
             </p>
-          </div>
+
+            <!-- Quick Stats Bar -->
+            <a href="demo.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2" style="background-color: #00aeff; color:white; width: 150px; height: 50px; font-size: 20px; border-radius: 10px; text-decoration: none;">
+                <i class="fa-solid fa-rocket text-xs"></i>Get Started
+            </a>
         </div>
-      </div>
+    </section>
+     <!-- Section 1: Main Tools & Modules Launch Gateway -->
+     <section id="tools" class="py-10 relative z-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between mb-8 border-b border-slate-200 pb-4">
+                <div>
+                    <span class="text-xs font-bold text-brandcyan uppercase tracking-widest block">Tools</span>
+                    <h2 class="font-condensed font-bold text-2xl sm:text-3xl text-slate-900 uppercase">Available Tools</h2>
+                </div>
+                <span class="text-xs text-slate-500 hidden sm:inline-block">Available in Demo</span>
+            </div>
+
+            <!-- Grid of Cards representing Apps (Clicking launches the tool interface simulation) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- App Card 1: Linguistic Steganography Beta (The tool from your image) -->
+                <div class="bg-white rounded-xl border border-bordergray p-6 shadow-sm hover:border-brandcyan hover:shadow-md transition-all relative flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-lg">
+                                <i class="fa-solid fa-user-shield"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-condensed font-bold text-xl text-slate-900 uppercase leading-tight group-hover:text-brandcyan transition-colors">
+                                    Email Generation
+                                </h3>
+                                <span class="text-xs text-slate-500 font-mono"></span>
+                            </div>
+                        </div>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                            Generates coherent email threads with embedded prepositional payloads, allowing for secure message transmission within natural text.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- App Card 2: Neural Carrier Verifier -->
+                <div class="bg-white rounded-xl border border-bordergray p-6 shadow-sm hover:border-brandcyan hover:shadow-md transition-all flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-lg border border-slate-200 group-hover:bg-cyan-50 group-hover:text-brandcyan transition-colors">
+                                <i class="fa-solid fa-magnifying-glass-chart"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-condensed font-bold text-xl text-slate-900 uppercase leading-tight group-hover:text-brandcyan transition-colors">
+                                    Narrative Storyteller
+                                </h3>
+                                <span class="text-xs text-slate-500 font-mono"></span>
+                            </div>
+                        </div>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                            Generates narrative text with embedded prepositional payloads, allowing for secure message transmission within natural text.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- App Card 3: Model Playground -->
+                <div class="bg-white rounded-xl border border-bordergray p-6 shadow-sm hover:border-brandcyan hover:shadow-md transition-all flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-lg border border-slate-200 group-hover:bg-cyan-50 group-hover:text-brandcyan transition-colors">
+                                <i class="fa-solid fa-sliders"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-condensed font-bold text-xl text-slate-900 uppercase leading-tight group-hover:text-brandcyan transition-colors">
+                                    Academic Essay
+                                </h3>
+                                <span class="text-xs text-slate-500 font-mono"></span>
+                            </div>
+                        </div>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                            Generates academic essays with embedded prepositional payloads, allowing for secure message transmission within natural text.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- Section 2: Encoding and Decoding Workflow -->
+    <section id="workflow" class="py-16 bg-white border-y border-slate-200 relative z-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-xs font-bold text-brandcyan uppercase tracking-widest block mb-1">TECHNICAL ARCHITECTURE</span>
+                <h2 class="font-condensed font-bold text-3xl sm:text-4xl text-slate-900 uppercase">Encoding &amp; Decoding Workflow</h2>
+                <p class="text-slate-600 text-sm sm:text-base mt-2">
+                    Two clear views of how a message is hidden in natural text and recovered from it.
+                </p>
+            </div>
+
+            <div class="mb-5 flex items-center gap-3">
+                <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-cyan-50 text-brandcyan">
+                    <i class="fa-solid fa-lock"></i>
+                </span>
+                <div>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-brandcyan">01 / ENCODE</span>
+                    <h3 class="font-condensed text-xl font-bold uppercase text-slate-900">Hide a message in cover text</h3>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+                <article class="rounded-xl border border-slate-200 bg-bodybg p-5">
+                    <div class="mb-4 flex items-center gap-3">
+                        <span class="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-100 font-mono text-sm font-bold text-cyan-800">1</span>
+                        <i class="fa-solid fa-file-lines text-brandcyan"></i>
+                    </div>
+                    <h4 class="mb-2 font-condensed text-lg font-bold uppercase text-slate-900">Convert the message</h4>
+                    <p class="text-sm leading-relaxed text-slate-600">
+                        The secret message is converted into hexadecimal character codes. Each hex digit can then be represented by a preposition.
+                    </p>
+                    <div class="mt-4 rounded-lg border border-slate-200 bg-white p-3 font-mono text-xs leading-6 text-slate-600">
+                        <span class="text-slate-400">Message:</span> "Hi"<br>
+                        <span class="text-slate-400">Hex:</span> <span class="font-semibold text-cyan-800">48 69</span>
+                    </div>
+                </article>
+
+                <article class="rounded-xl border border-slate-200 bg-bodybg p-5">
+                    <div class="mb-4 flex items-center gap-3">
+                        <span class="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-100 font-mono text-sm font-bold text-cyan-800">2</span>
+                        <i class="fa-solid fa-shuffle text-brandcyan"></i>
+                    </div>
+                    <h4 class="mb-2 font-condensed text-lg font-bold uppercase text-slate-900">Map digits to prepositions</h4>
+                    <p class="text-sm leading-relaxed text-slate-600">
+                        Each hexadecimal digit maps to one preposition from a password-derived ordering. The prepositions are assembled in sequence as the hidden payload.
+                    </p>
+                    <div class="mt-4 rounded-lg border border-slate-200 bg-white p-3 font-mono text-xs leading-6 text-slate-600">
+                        <span class="text-slate-400">Example digits:</span> 4, 8, 6, 9<br>
+                        <span class="text-slate-400">Mapped:</span> <span class="font-semibold text-cyan-800">in, at, on, by</span>
+                        <span class="mt-1 block text-[10px] text-slate-400">Illustrative mapping; the password determines the actual order.</span>
+                    </div>
+                </article>
+
+                <article class="rounded-xl border border-slate-200 bg-bodybg p-5">
+                    <div class="mb-4 flex items-center gap-3">
+                        <span class="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-100 font-mono text-sm font-bold text-cyan-800">3</span>
+                        <i class="fa-solid fa-wand-magic-sparkles text-brandcyan"></i>
+                    </div>
+                    <h4 class="mb-2 font-condensed text-lg font-bold uppercase text-slate-900">Generate natural cover text</h4>
+                    <p class="text-sm leading-relaxed text-slate-600">
+                        A language model writes a coherent passage around the required prepositions, concealing them in ordinary-looking text.
+                    </p>
+                    <div class="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 p-3 font-mono text-xs leading-6 text-emerald-900">
+                        “Review the report <span class="rounded bg-emerald-200 px-1 font-bold">in</span> the folder <span class="rounded bg-emerald-200 px-1 font-bold">at</span> your convenience.”
+                    </div>
+                </article>
+            </div>
+
+            <div class="mt-5 flex flex-col items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-4 text-center sm:flex-row sm:gap-3">
+                <span class="font-mono text-xs font-semibold text-slate-600">SECRET MESSAGE</span>
+                <i class="fa-solid fa-arrow-right text-xs text-slate-400"></i>
+                <span class="font-mono text-xs font-semibold text-slate-600">HEX DIGITS</span>
+                <i class="fa-solid fa-arrow-right text-xs text-slate-400"></i>
+                <span class="font-mono text-xs font-semibold text-slate-600">PREPOSITIONS</span>
+                <i class="fa-solid fa-arrow-right text-xs text-slate-400"></i>
+                <span class="font-mono text-xs font-bold text-emerald-700">NATURAL COVER TEXT</span>
+            </div>
+
+            <div class="mt-14 border-t border-slate-200 pt-10">
+                <div class="mb-6 flex items-center gap-3">
+                    <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-700">
+                        <i class="fa-solid fa-unlock-keyhole"></i>
+                    </span>
+                    <div>
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500">02 / DECODE</span>
+                        <h3 class="font-condensed text-xl font-bold uppercase text-slate-900">Recover the hidden message</h3>
+                    </div>
+                </div>
+                <p class="mb-6 max-w-3xl text-sm leading-relaxed text-slate-600">
+                    Decoding reverses the encoding steps. Provide the generated carrier text and the same password used to encode it; the decoder extracts the prepositions, maps them back to hexadecimal, and reconstructs the original message.
+                </p>
+
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+                    <article class="rounded-xl border border-slate-200 bg-bodybg p-5">
+                        <div class="mb-4 flex items-center gap-3">
+                            <span class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 font-mono text-sm font-bold text-slate-700">1</span>
+                            <i class="fa-solid fa-magnifying-glass text-slate-500"></i>
+                        </div>
+                        <h4 class="mb-2 font-condensed text-lg font-bold uppercase text-slate-900">Find the signal</h4>
+                        <p class="text-sm leading-relaxed text-slate-600">
+                            The decoder scans the carrier text and keeps supported prepositions in the order they appear, ignoring the surrounding cover words.
+                        </p>
+                        <div class="mt-4 rounded-lg border border-slate-200 bg-white p-3 font-mono text-xs leading-6 text-slate-600">
+                            “...specifications <span class="rounded bg-cyan-100 px-1 font-bold text-cyan-900">in</span> the attachment <span class="rounded bg-cyan-100 px-1 font-bold text-cyan-900">at</span> your...”<br>
+                            <span class="text-slate-400">Extracted:</span> in, at, ...
+                        </div>
+                    </article>
+
+                    <article class="rounded-xl border border-slate-200 bg-bodybg p-5">
+                        <div class="mb-4 flex items-center gap-3">
+                            <span class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 font-mono text-sm font-bold text-slate-700">2</span>
+                            <i class="fa-solid fa-right-left text-slate-500"></i>
+                        </div>
+                        <h4 class="mb-2 font-condensed text-lg font-bold uppercase text-slate-900">Reverse the mapping</h4>
+                        <p class="text-sm leading-relaxed text-slate-600">
+                            The password recreates the preposition mapping used during encoding. Each extracted preposition becomes its hexadecimal digit; every two digits form one character code.
+                        </p>
+                        <div class="mt-4 rounded-lg border border-slate-200 bg-white p-3 font-mono text-xs leading-6 text-slate-600">
+                            <span class="text-cyan-800">in, at, ...</span><br>
+                            <span class="text-slate-400">Password map:</span> hex digit pairs
+                        </div>
+                    </article>
+
+                    <article class="rounded-xl border border-slate-200 bg-bodybg p-5">
+                        <div class="mb-4 flex items-center gap-3">
+                            <span class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 font-mono text-sm font-bold text-slate-700">3</span>
+                            <i class="fa-solid fa-message text-slate-500"></i>
+                        </div>
+                        <h4 class="mb-2 font-condensed text-lg font-bold uppercase text-slate-900">Restore the message</h4>
+                        <p class="text-sm leading-relaxed text-slate-600">
+                            The hexadecimal character codes are converted back into text and returned as the decoded payload.
+                        </p>
+                        <div class="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 p-3 font-mono text-xs leading-6 text-emerald-900">
+                            <span class="text-emerald-700">Hex pairs</span><br>
+                            <i class="fa-solid fa-arrow-down text-[10px]"></i><br>
+                            Original secret message
+                        </div>
+                    </article>
+                </div>
+
+                <div class="mt-5 flex flex-col items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-4 text-center sm:flex-row sm:gap-3">
+                    <span class="font-mono text-xs font-semibold text-slate-600">CARRIER TEXT</span>
+                    <i class="fa-solid fa-arrow-right text-xs text-slate-400"></i>
+                    <span class="font-mono text-xs font-semibold text-slate-600">PREPOSITIONS</span>
+                    <i class="fa-solid fa-arrow-right text-xs text-slate-400"></i>
+                    <span class="font-mono text-xs font-semibold text-slate-600">HEX PAIRS</span>
+                    <i class="fa-solid fa-arrow-right text-xs text-slate-400"></i>
+                    <span class="font-mono text-xs font-bold text-emerald-700">ORIGINAL MESSAGE</span>
+                </div>
+                <p class="mt-3 text-xs text-slate-500">
+                    Use the same password for both directions. If no password was set, decode with the default key.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Core Technology Feature Grid -->
+    <section id="features" class="py-16 relative z-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-xs font-bold text-brandcyan uppercase tracking-widest block mb-1">STATISTICS</span>
+                <h2 class="font-condensed font-bold text-3xl text-slate-900 uppercase">By The Numbers</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Feature Card 1 -->
+                <div class="bg-white rounded-xl border border-bordergray p-6 shadow-sm border-t-4 border-t-brandcyan hover:shadow-md transition-shadow">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-[10px] font-mono font-bold uppercase text-slate-400">STAT // 01</span>
+                        <i class="fa-solid fa-chart-line text-brandcyan text-lg"></i>
+                    </div>
+                    <h3 class="font-condensed font-bold text-lg text-slate-900 uppercase mb-2">39.7% RECOVERY RATE</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Out of all the test runs across different message lengths, the decoder extracted the original secret message with 100% perfection nearly 40% of the time (with shorter messages performing as high as 63.3%)
+                    </p>
+                </div>
+
+                <!-- Feature Card 2 -->
+                <div class="bg-white rounded-xl border border-bordergray p-6 shadow-sm border-t-4 border-t-brandcyan hover:shadow-md transition-shadow">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-[10px] font-mono font-bold uppercase text-slate-400">STAT // 02</span>
+                        <i class="fa-solid fa-up-right-and-down-left-from-center text-brandcyan text-lg"></i>
+                    </div>
+                    <h3 class="font-condensed font-bold text-lg text-slate-900 uppercase mb-2">114.5x CHARACTER EXPANSION RATIO</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        For every single character in your secret message (e.g., the letter "A"), the LLM generates roughly 114.5 characters of cover text to blend the preposition-encoded payload naturally into readable prose.
+                    </p>
+                </div>
+
+                <!-- Feature Card 3 -->
+                <div class="bg-white rounded-xl border border-bordergray p-6 shadow-sm border-t-4 border-t-brandcyan hover:shadow-md transition-shadow">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-[10px] font-mono font-bold uppercase text-slate-400">STAT // 03</span>
+                        <i class="fa-solid fa-stopwatch text-brandcyan text-lg"></i>
+                    </div>
+                    <h3 class="font-condensed font-bold text-lg text-slate-900 uppercase mb-2">30.5s MEAN LATENCY</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        On average, it takes about 30.5 seconds from the moment a trial is initiated for the model to craft and output the full encoded cover text.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Publications & Benchmarks -->
+    <section id="publications" class="py-16 bg-white border-t border-slate-200 relative z-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-10 border-b border-slate-200 pb-4 gap-4">
+                <div>
+                    <span class="text-xs font-bold text-brandcyan uppercase tracking-widest block">ACADEMIC RESEARCH</span>
+                    <h2 class="font-condensed font-bold text-3xl text-slate-900 uppercase">Recent Papers & Preprints</h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-mono text-slate-500">IEEE / arXiv Format</span>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                
+                <!-- Paper Item 1 -->
+                <div class="bg-bodybg border border-bordergray rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-slate-300 transition-colors">
+                    <div class="space-y-2 max-w-3xl">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-0.5 bg-brandcyan/10 text-brandcyandark font-mono text-[11px] font-bold rounded">Coming Soon</span>
+                            <span class="text-xs text-slate-400 font-medium">Soon to be Published</span>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base sm:text-lg">
+                            Text Based Steganography via Prepositional Encoding and Generative AI
+                        </h3>
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Author: Vaishnavi Adidam - <span class="italic text-slate-500">IEEE</span>
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-2 flex-shrink-0">
+                        <button onclick="copyCitation('No Citation Available')" class="px-3 py-1.5 bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 rounded text-xs font-semibold transition-colors flex items-center gap-1.5">
+                            <i class="fa-regular fa-copy text-xs"></i> Cite
+                        </button>
+                        <a href="javascript:void(0)" onclick="triggerAppLaunch('Paper PDF Download')" class="px-4 py-1.5 bg-slate-900 text-white hover:bg-brandcyan rounded text-xs font-semibold transition-colors flex items-center gap-1.5">
+                            <i class="fa-solid fa-file-pdf text-xs"></i> Download PDF
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: FAQ & Technical Summary -->
+    <section id="faq" class="py-16 relative z-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-xs font-bold text-brandcyan uppercase tracking-widest block mb-1">COMMON QUESTIONS</span>
+                <h2 class="font-condensed font-bold text-3xl text-slate-900 uppercase">Frequently Asked Questions</h2>
+            </div>
+
+            <div class="space-y-3">
+                
+                <!-- FAQ Item 1 -->
+                <div class="bg-white border border-bordergray rounded-xl overflow-hidden shadow-sm">
+                    <button onclick="toggleFaq(1)" class="w-full p-5 text-left font-bold text-slate-900 flex justify-between items-center hover:bg-slate-50 text-sm sm:text-base">
+                        <span>How does this differ from traditional image/audio steganography?</span>
+                        <i id="faqIcon1" class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faqContent1" class="hidden p-5 pt-0 text-slate-600 text-sm leading-relaxed border-t border-slate-100 mt-2">
+                        Traditional steganography alters noise bits in images or audio files (LSB modification). Linguistic steganography encodes payloads directly into plain text syntax, making it ideal for channels where only plain text is transmitted (e.g. emails, forum comments, chat messaging).
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="bg-white border border-bordergray rounded-xl overflow-hidden shadow-sm">
+                    <button onclick="toggleFaq(2)" class="w-full p-5 text-left font-bold text-slate-900 flex justify-between items-center hover:bg-slate-50 text-sm sm:text-base">
+                        <span>What are the security and dual-use considerations of this project?</span>
+                        <i id="faqIcon2" class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faqContent2" class="hidden p-5 pt-0 text-slate-600 text-sm leading-relaxed border-t border-slate-100 mt-2">
+                        Information-hiding techniques can serve privacy-preserving applications as well as potential covert misuse. By sharing our source code and empirical evaluation data, we aim to encourage open research, reproducibility, and further study into steganographic detectability and safeguards.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="bg-white border border-bordergray rounded-xl overflow-hidden shadow-sm">
+                    <button onclick="toggleFaq(3)" class="w-full p-5 text-left font-bold text-slate-900 flex justify-between items-center hover:bg-slate-50 text-sm sm:text-base">
+                        <span>How do I open the interactive encoding interface?</span>
+                        <i id="faqIcon3" class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faqContent3" class="hidden p-5 pt-0 text-slate-600 text-sm leading-relaxed border-t border-slate-100 mt-2">
+                        Simply navigate to the top of the page, and click the "Get Started" button. This will launch the interactive module where you can encode and decode messages using our linguistic steganography tools.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (Dark Navigation Matching Top Header) -->
+    <footer class="bg-navdark text-slate-400 py-12 border-t border-slate-800 relative z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-slate-800">
+                <div class="flex flex-col items-center gap-2 md:items-start">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center">
+                            <i class="fa-solid fa-atom text-brandcyan text-sm"></i>
+                        </div>
+                        <span class="font-condensed font-bold text-lg text-white uppercase">Stegveil</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-1 text-xs md:items-start">
+                        <p>Email: <a href="mailto:contact@stegveil.dev" class="hover:text-white" style="color: #00aeff;">contact@stegveil.dev</a></p>
+                        <p>Discord: <a href="https://discord.gg/ZPPRG7zRqd" target="_blank" rel="noopener noreferrer" class="hover:text-white" style="color: #00aeff;">Join our server</a></p>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-400">
+                    Open Academic Research Framework for Linguistic Steganography & Cover Generation
+                </p>
+                <div class="flex flex-wrap items-center justify-center gap-3 md:justify-end">
+                    <a href="https://github.com/Vaishnavi-pix/Steganography" target="_blank" class="px-3 py-1 bg-white/10 hover:bg-white/20 text-white rounded text-xs">GitHub Repository</a>
+                    <a href="stegveil_paper.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1 bg-white/10 hover:bg-white/20 text-white rounded text-xs">Research Paper</a>
+                </div>
+            </div>
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-2">
+                <p>&copy; 2026 Stegveil</p>
+                <div class="flex gap-4">
+                    <a href="#" class="hover:text-slate-300">Privacy Policy</a>
+                    <a href="#" class="hover:text-slate-300">Terms of Service</a>
+                    <a href="#" class="hover:text-slate-300">Security Disclosure</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Toast Modal for Launching Modules -->
+    <div id="launchModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none p-4">
+        <div class="bg-white rounded-xl border border-slate-200 shadow-2xl max-w-md w-full p-6 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-2 text-brandcyan font-bold font-condensed uppercase text-lg">
+                    <i class="fa-solid fa-rocket"></i> Accessing Application
+                </div>
+                <button onclick="closeLaunchModal()" class="text-slate-400 hover:text-slate-600 p-1">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div class="space-y-2">
+                <span id="modalTargetTool" class="font-condensed font-bold text-xl text-slate-900 uppercase block">
+                    Tool Launch Target
+                </span>
+                <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                    You are navigating to the interactive module interface. In production, this routes directly to the operational steganography workspace.
+                </p>
+            </div>
+            <div class="bg-slate-50 p-3 rounded border border-slate-200 text-xs text-slate-600 font-mono flex items-center gap-2">
+                <i class="fa-solid fa-circle-notch animate-spin text-brandcyan"></i> Loading module environment...
+            </div>
+            <div class="pt-2 flex justify-end gap-2">
+                <button onclick="closeLaunchModal()" class="px-4 py-2 bg-slate-200 text-slate-800 font-semibold text-xs rounded hover:bg-slate-300">
+                    Close
+                </button>
+                <button onclick="closeLaunchModal()" class="px-4 py-2 bg-brandcyan text-white font-semibold text-xs rounded hover:bg-brandcyandark">
+                    Proceed to App
+                </button>
+            </div>
+        </div>
     </div>
-  </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
-
-  <script>
-    let currentMode = 'encode';
-    const encodeMaxChars = 45;
-    // Per-mode storage so encode/decode have separate text boxes
-    let encodeInput = '';
-    let encodeOutput = '';
-    let decodeInput = '';
-    let decodeOutput = '';
-    // Separate password storage for encode/decode so edits don't mirror
-    let encodePassword = '';
-    let decodePassword = '';
-
-    function switchMode(mode) {
-      // store previous mode values first
-      const previousMode = currentMode;
-      const inputText = document.getElementById("inputText");
-      const outputText = document.getElementById("outputText");
-      const pwdEncode = document.getElementById('passwordInputEncode');
-      const pwdDecode = document.getElementById('passwordInputDecode');
-
-      if (previousMode === 'encode') {
-        encodeInput = inputText ? inputText.value : encodeInput;
-        encodeOutput = outputText ? outputText.value : encodeOutput;
-        encodePassword = pwdEncode ? pwdEncode.value : encodePassword;
-      } else {
-        decodeInput = inputText ? inputText.value : decodeInput;
-        decodeOutput = outputText ? outputText.value : decodeOutput;
-        decodePassword = pwdDecode ? pwdDecode.value : decodePassword;
-      }
-      currentMode = mode;
-      const coverTextContainer = document.getElementById("coverTextContainer");
-      const inputLabel = document.getElementById("inputLabel");
-      const outputLabel = document.getElementById("outputLabel");
-      // references to input/output already obtained above
-      const mainActionButton = document.getElementById("mainActionButton");
-      const pasteInputButton = document.getElementById("pasteInputButton");
-
-      // Preserve input/output text when switching modes; user controls clearing
-
-      if (mode === 'encode') {
-        pasteInputButton.style.display = "inline-block"; // Show paste button in encode mode
-        coverTextContainer.style.display = "block";
-        inputLabel.innerText = "Input Content";
-        outputLabel.innerText = "Output Result";
-        inputText.placeholder = "Enter your secret message here...";
-        
-        mainActionButton.className = "btn-action btn-encode w-100 shadow-sm";
-        mainActionButton.innerHTML = '<i class="bi bi-shield-lock-fill me-2"></i>Encode';
-        mainActionButton.onclick = doConversion;
-
-        // show encode password panel, hide decode panel
-        document.getElementById('passwordPanelEncodeRow').style.display = '';
-        document.getElementById('passwordPanelDecodeRow').style.display = 'none';
-      } else {
-        pasteInputButton.style.display = "inline-block"; // Show paste button in decode mode
-        coverTextContainer.style.display = "none";
-        inputLabel.innerText = "Steg Text Input";
-        outputLabel.innerText = "Decoded Payload Output";
-        inputText.placeholder = "Paste your encrypted generated cover text here to read the hidden payload data...";
-        
-        mainActionButton.className = "btn-action btn-decode w-100 shadow-sm";
-        mainActionButton.innerHTML = '<i class="bi bi-unlock-fill me-2"></i>Decode';
-        mainActionButton.onclick = deConvert;
-
-        // show decode password panel, hide encode panel
-        document.getElementById('passwordPanelEncodeRow').style.display = 'none';
-        document.getElementById('passwordPanelDecodeRow').style.display = '';
-      }
-      // Restore per-mode text values into the visible textareas
-      if (inputText) inputText.value = (mode === 'encode' ? (encodeInput || '') : (decodeInput || ''));
-      if (outputText) outputText.value = (mode === 'encode' ? (encodeOutput || '') : (decodeOutput || ''));
-      // restore the appropriate password for the mode without mirroring edits
-      const pwdEncodeRestore = document.getElementById('passwordInputEncode');
-      const pwdDecodeRestore = document.getElementById('passwordInputDecode');
-      if (pwdEncodeRestore) pwdEncodeRestore.value = encodePassword || '';
-      if (pwdDecodeRestore) pwdDecodeRestore.value = decodePassword || '';
-      // update the char count displays for both
-      if (typeof updatePasswordCharCount === 'function') {
-        updatePasswordCharCount('encode');
-        updatePasswordCharCount('decode');
-      }
-
-      // Move the password panel to be its own card above the chosen panel
-      const passwordPanel = document.getElementById('passwordPanelRow');
-      const mainCol = document.getElementById('mainCol');
-      const inputPanel = document.getElementById('inputPanelRow');
-      const outputPanel = document.getElementById('outputPanelRow');
-      const passwordInput = document.getElementById('passwordInput');
-      const passwordNote = document.getElementById('passwordNote');
-      const copyPasswordBtn = document.getElementById('copyPasswordBtn');
-      const pastePasswordBtn = document.getElementById('pastePasswordBtn');
-      const togglePasswordBtn = document.getElementById('togglePasswordBtn');
-      if (passwordPanel && mainCol) {
-        if (mode === 'encode') {
-          if (inputPanel) mainCol.insertBefore(passwordPanel, inputPanel);
-          if (passwordInput) {
-            // make editable and use the same white background as the input textarea
-            passwordInput.readOnly = false;
-            passwordInput.classList.remove('bg-light');
-          }
-          if (passwordNote) passwordNote.classList.remove('visually-hidden');
-          if (copyPasswordBtn) copyPasswordBtn.style.display = 'inline-block';
-          if (pastePasswordBtn) pastePasswordBtn.style.display = 'none';
-          if (togglePasswordBtn) togglePasswordBtn.style.display = 'inline-block';
-        } else {
-          if (inputPanel) mainCol.insertBefore(passwordPanel, inputPanel);
-          if (passwordInput) {
-            passwordInput.readOnly = false;
-            passwordInput.classList.remove('bg-light');
-          }
-          if (passwordNote) passwordNote.classList.add('visually-hidden');
-          if (copyPasswordBtn) copyPasswordBtn.style.display = 'none';
-          if (pastePasswordBtn) pastePasswordBtn.style.display = 'inline-block';
-          if (togglePasswordBtn) togglePasswordBtn.style.display = 'inline-block';
+    <script>
+        // FAQ Toggle
+        function toggleFaq(num) {
+            const content = document.getElementById(`faqContent${num}`);
+            const icon = document.getElementById(`faqIcon${num}`);
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
         }
-      }
 
-      updateCharCount();
-    }
-
-    // New action function to handle pasting directly from systemic navigator clipboard APIs
-    async function pasteFromClipboard() {
-      const inputText = document.getElementById("inputText");
-      try {
-        const text = await navigator.clipboard.readText();
-        inputText.value = text;
-        updateCharCount();
-      } catch (err) {
-        console.error("Failed to read clipboard contents: ", err);
-        alert("Clipboard access denied or unsupported. Please use Ctrl+V / Cmd+V to paste manually.");
-      }
-    }
-
-    // Custom animated dropdown (accordion-style) for coverTextType
-    (function setupCustomCoverDropdown(){
-      const nativeSelect = document.getElementById('coverTextType');
-      const button = document.getElementById('coverSelectButton');
-      const list = document.getElementById('coverSelectList');
-      if (!nativeSelect || !button || !list) return;
-
-      const items = Array.from(list.querySelectorAll('.custom-select-item'));
-
-      const openList = () => {
-        list.classList.add('open');
-        button.setAttribute('aria-expanded', 'true');
-      };
-      const closeList = () => {
-        list.classList.remove('open');
-        button.setAttribute('aria-expanded', 'false');
-      };
-
-      // Toggle on button click
-      button.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (list.classList.contains('open')) closeList(); else openList();
-      });
-
-      // helper to set button label while preserving icon
-      const setButtonLabel = (label) => { button.innerHTML = label + ' <i class="bi bi-caret-down-fill"></i>'; };
-
-      // Select item
-      items.forEach((it, idx) => {
-        it.addEventListener('click', (e) => {
-          const v = it.getAttribute('data-value');
-          // update native select
-          nativeSelect.value = v;
-          // update button text
-          setButtonLabel(it.textContent.trim());
-          // mark selected
-          items.forEach(i => i.setAttribute('aria-selected', 'false'));
-          it.setAttribute('aria-selected', 'true');
-          closeList();
-          nativeSelect.dispatchEvent(new Event('change', { bubbles: true }));
-        });
-        // keyboard navigation on items
-        it.addEventListener('keydown', (ev) => {
-          if (ev.key === 'Enter' || ev.key === ' ') {
-            ev.preventDefault(); it.click();
-          } else if (ev.key === 'ArrowDown') {
-            ev.preventDefault(); const next = items[idx+1] || items[0]; next.focus();
-          } else if (ev.key === 'ArrowUp') {
-            ev.preventDefault(); const prev = items[idx-1] || items[items.length-1]; prev.focus();
-          } else if (ev.key === 'Escape') {
-            closeList(); button.focus();
-          }
-        });
-        it.tabIndex = 0;
-      });
-
-      // Close when clicking outside
-      document.addEventListener('click', (e) => { if (!list.contains(e.target) && e.target !== button) closeList(); });
-
-      // Close on blur of button
-      button.addEventListener('blur', () => setTimeout(() => { if (document.activeElement && !list.contains(document.activeElement)) closeList(); }, 150));
-
-      // Keyboard open via button
-      button.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowDown' || e.key === ' ') {
-          e.preventDefault(); openList(); items[0].focus();
-        } else if (e.key === 'ArrowUp') {
-          e.preventDefault(); openList(); items[items.length-1].focus();
+        // Modal Action Simulation for "Launch Tool" Buttons
+        function triggerAppLaunch(toolName) {
+            const modal = document.getElementById('launchModal');
+            document.getElementById('modalTargetTool').textContent = toolName;
+            modal.classList.remove('opacity-0', 'pointer-events-none');
         }
-      });
 
-      // init button text from native select
-      const initOption = nativeSelect.querySelector('option:checked');
-      if (initOption) setButtonLabel(initOption.textContent.trim());
-    })();
-
-    function showLoading(message = "Processing...") {
-      document.getElementById("loadingMessage").innerText = message;
-      document.getElementById("loadingScreen").classList.add("show");
-    }
-
-    function hideLoading() {
-      document.getElementById("loadingScreen").classList.remove("show");
-    }
-
-    async function doConversion(event) {
-      if(event) event.preventDefault();
-      showLoading("Encoding hidden text...");
-
-      const coverType = document.getElementById("coverTextType").value;
-
-      try {
-        const response = await fetch("stegText", {
-          method: "POST",
-          body: JSON.stringify({
-              inputText: document.getElementById("inputText").value,
-              coverType: coverType,
-              password: document.getElementById("passwordInputEncode").value
-            }),
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-
-        const result = await response.text();
-        document.getElementById("outputText").value = result;
-
-      } catch (err) {
-        console.error(err);
-        alert("Error during conversion.");
-      } finally {
-        hideLoading();
-      }
-    }
-
-    async function deConvert(event) {
-      if(event) event.preventDefault();
-      showLoading("Decoding hidden text...");
-
-      try {
-        const response = await fetch("deStegText", {
-          method: "POST",
-          body: JSON.stringify({
-              inputText: document.getElementById("inputText").value,
-              password: document.getElementById("passwordInputDecode").value
-            }),
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-
-        const result = await response.text();
-        document.getElementById("outputText").value = result;
-
-      } catch (err) {
-        console.error(err);
-        alert("Error during deconversion.");
-      } finally {
-        hideLoading();
-      }
-    }
-
-    const inputTextarea = document.getElementById("inputText");
-    const outputTextarea = document.getElementById("outputText");
-    const charCountSpan = document.getElementById("charCount");
-
-    function updateCharCount() {
-      let currentLength = inputTextarea.value.length;
-
-      if (currentMode === 'encode') {
-        if (currentLength > encodeMaxChars) {
-          inputTextarea.value = inputTextarea.value.substring(0, encodeMaxChars);
-          currentLength = encodeMaxChars;
+        function closeLaunchModal() {
+            const modal = document.getElementById('launchModal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
         }
-        charCountSpan.textContent = `${currentLength} / ${encodeMaxChars}`;
 
-        if (currentLength >= encodeMaxChars) {
-          charCountSpan.classList.add("text-danger");
-          charCountSpan.classList.remove("text-muted");
-        } else {
-          charCountSpan.classList.remove("text-danger");
-          charCountSpan.classList.add("text-muted");
+        // Copy Citation helper
+        function copyCitation(text) {
+            const dummy = document.createElement('textarea');
+            document.body.appendChild(dummy);
+            dummy.value = text;
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+            alert(`Copied citation [${text}] to clipboard!`);
         }
-      } else {
-        charCountSpan.textContent = `${currentLength} characters`;
-        charCountSpan.classList.remove("text-danger");
-        charCountSpan.classList.add("text-muted");
-      }
-    }
-
-    inputTextarea.addEventListener("input", updateCharCount);
-    inputTextarea.addEventListener("keyup", updateCharCount); 
-      updateCharCount();
-    // Ensure UI elements (password wrapper placement & readonly state) match current mode on load
-    switchMode(currentMode);
-
-    // Password character count handling (per-mode)
-    function updatePasswordCharCount(mode) {
-      const id = mode === 'decode' ? 'passwordInputDecode' : 'passwordInputEncode';
-      const countId = mode === 'decode' ? 'passwordCharCountDecode' : 'passwordCharCountEncode';
-      const pwd = document.getElementById(id);
-      const countEl = document.getElementById(countId);
-      if (!pwd || !countEl) return;
-      const len = pwd.value.length;
-      countEl.textContent = `${len} / 125`;
-      if (len >= 125) {
-        countEl.classList.remove('text-muted');
-        countEl.classList.add('text-danger');
-      } else {
-        countEl.classList.remove('text-danger');
-        countEl.classList.add('text-muted');
-      }
-    }
-
-    // wire up both password inputs
-    const pwdInputEncodeEl = document.getElementById('passwordInputEncode');
-    if (pwdInputEncodeEl) {
-      pwdInputEncodeEl.addEventListener('input', () => updatePasswordCharCount('encode'));
-      pwdInputEncodeEl.addEventListener('keyup', () => updatePasswordCharCount('encode'));
-      updatePasswordCharCount('encode');
-    }
-    const pwdInputDecodeEl = document.getElementById('passwordInputDecode');
-    if (pwdInputDecodeEl) {
-      pwdInputDecodeEl.addEventListener('input', () => updatePasswordCharCount('decode'));
-      pwdInputDecodeEl.addEventListener('keyup', () => updatePasswordCharCount('decode'));
-      updatePasswordCharCount('decode');
-    }
-
-    // initialize toggle icon state
-    const toggleIconEncode = document.getElementById('togglePasswordIconEncode');
-    const toggleIconDecode = document.getElementById('togglePasswordIconDecode');
-    if (toggleIconEncode) toggleIconEncode.className = 'bi bi-eye fs-5';
-    if (toggleIconDecode) toggleIconDecode.className = 'bi bi-eye fs-5';
-
-    function clearInputText() {
-      inputTextarea.value = '';
-      updateCharCount();
-    }
-
-    async function copyOutputText() {
-      const copyMessageSpan = document.getElementById("copyMessage");
-      try {
-        await navigator.clipboard.writeText(outputTextarea.value);
-        copyMessageSpan.classList.remove("visually-hidden");
-        
-        setTimeout(() => {
-          copyMessageSpan.classList.add("visually-hidden");
-        }, 2000);
-      } catch (err) {
-        console.error("Failed to copy text: ", err);
-        alert("Failed to copy text. Please copy manually.");
-      }
-    }
-
-    async function copyPassword(mode) {
-      const id = mode === 'decode' ? 'passwordInputDecode' : 'passwordInputEncode';
-      const msgId = mode === 'decode' ? 'passwordCopiedMsgDecode' : 'passwordCopiedMsgEncode';
-      const pwd = document.getElementById(id).value || '';
-      const msg = document.getElementById(msgId);
-      try {
-        await navigator.clipboard.writeText(pwd);
-        if (msg) {
-          msg.classList.remove('visually-hidden');
-          setTimeout(() => msg.classList.add('visually-hidden'), 2000);
-        }
-      } catch (err) {
-        console.error('Failed to copy password: ', err);
-        alert('Failed to copy password. Please copy manually.');
-      }
-    }
-
-    async function pastePassword(mode) {
-      const id = mode === 'decode' ? 'passwordInputDecode' : 'passwordInputEncode';
-      const pwdEl = document.getElementById(id);
-      try {
-        const text = await navigator.clipboard.readText();
-        if (pwdEl) {
-          pwdEl.value = text;
-          updatePasswordCharCount(mode);
-          if (mode === 'encode') encodePassword = pwdEl.value;
-          else decodePassword = pwdEl.value;
-        }
-      } catch (err) {
-        console.error('Failed to read clipboard for password: ', err);
-        alert('Failed to read from clipboard. Please paste manually.');
-      }
-    }
-
-    function togglePasswordVisibility(mode) {
-      const id = mode === 'decode' ? 'passwordInputDecode' : 'passwordInputEncode';
-      const iconId = mode === 'decode' ? 'togglePasswordIconDecode' : 'togglePasswordIconEncode';
-      const pwdEl = document.getElementById(id);
-      const icon = document.getElementById(iconId);
-      if (!pwdEl || !icon) return;
-      if (pwdEl.type === 'password') {
-        pwdEl.type = 'text';
-        icon.className = 'bi bi-eye-slash fs-5';
-      } else {
-        pwdEl.type = 'password';
-        icon.className = 'bi bi-eye fs-5';
-      }
-    }
-
-    function clearPassword(mode) {
-      const id = mode === 'decode' ? 'passwordInputDecode' : 'passwordInputEncode';
-      const msgId = mode === 'decode' ? 'passwordCopiedMsgDecode' : 'passwordCopiedMsgEncode';
-      const pwdEl = document.getElementById(id);
-      const msgEl = document.getElementById(msgId);
-      if (!pwdEl) return;
-      // clear the value and any attribute that may persist
-      try { pwdEl.value = ''; } catch (e) {}
-      try { pwdEl.setAttribute('value', ''); } catch (e) {}
-      // dispatch events so UI/state listeners update
-      try { pwdEl.dispatchEvent(new Event('input', { bubbles: true })); } catch (e) {}
-      try { pwdEl.dispatchEvent(new Event('change', { bubbles: true })); } catch (e) {}
-      updatePasswordCharCount(mode);
-      if (mode === 'encode') encodePassword = '';
-      else decodePassword = '';
-      if (msgEl) msgEl.classList.add('visually-hidden');
-    }
-  </script>
-
+    </script>
 </body>
 </html>

@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stegveil: Hiding Data in Plain Text with Generative AI</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+
+  <link rel="icon" href="Steg_Veil.png" sizes="any">
+
+  <style>
+    body {
+      font-family: "Quicksand", sans-serif;
+      color: #1e293b;
+      background-color: #ffffff;
+      /* Clean technical circuitry, magnifying lens, and blueprint schematic framework (text removed) */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1920 1080' preserveAspectRatio='xMidYMid slice'%3E%3Cg fill='none' stroke='%23cbd5e1' stroke-width='1.5' stroke-opacity='0.4'%3E%3C!-- Left Circuit Node Structure --%3E%3Cpath d='M-50 400h150l60-60v-100m0 0l30-30h100m-130 30h-50m120-90h80v-50' /%3E%3Ccircle cx='190' cy='210' r='4' fill='%23cbd5e1' fill-opacity='0.3'/%3E%3Cpath d='M60 340l40 40v200l-50 50H10' /%3E%3Ccircle cx='100' cy='380' r='3'/%3E%3Cpath d='M160 340h120l40 40v150l30 30h60' /%3E%3Ccircle cx='410' cy='560' r='4' fill='%23cbd5e1' fill-opacity='0.3'/%3E%3C!-- Right Optics/Search Geometry --%3E%3Cg transform='translate(1650, 150)'%3E%3Ccircle cx='60' cy='60' r='45' stroke-width='2'/%3E%3Cline x1='92' y1='92' x2='140' y2='140' stroke-width='3'/%3E%3C/g%3E%3Cpath d='M1950 300h-150l-40 40v120l-30 30h-100m170-190v-80h-120l-20-20v-50' /%3E%3Ccircle cx='1610' cy='490' r='3'/%3E%3Cpath d='M1760 460v90l-40 40h-150l-30-30v-80' /%3E%3Ccircle cx='1540' cy='560' r='4' fill='%23cbd5e1' fill-opacity='0.3'/%3E%3C!-- Grid Infrastructure Accents --%3E%3Crect x='100' y='750' width='80' height='80' stroke-dasharray='4,4' stroke-opacity='0.2'/%3E%3Ccircle cx='140' cy='790' r='20' stroke-opacity='0.2'/%3E%3Cpath d='M1700 850m-30 0a30 30 0 1 0 60 0a30 30 0 1 0 -60 0M1650 850h130M1700 800v100' stroke-opacity='0.15'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: cover;
+      background-position: center top;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+    }
+
+    /* Shared home-page header styling */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: #0e1726;
+      color: #ffffff;
+      box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.2);
+    }
+
+    .site-header-inner {
+      width: min(100% - 2rem, 1280px);
+      min-height: 64px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .site-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #ffffff;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .site-brand-icon {
+      width: 36px;
+      height: 36px;
+      overflow: hidden;
+      border: 1px solid #334155;
+      border-radius: 50%;
+      transition: border-color 0.2s ease;
+    }
+
+    .site-brand:hover .site-brand-icon {
+      border-color: #00aeff;
+    }
+
+    .site-brand-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .site-brand-name {
+      display: block;
+      font-family: "Oswald", sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .site-brand-name span {
+      color: #00aeff;
+    }
+
+    .site-brand-tagline {
+      display: block;
+      margin-top: 0.2rem;
+      color: #94a3b8;
+      font-family: monospace;
+      font-size: 0.625rem;
+      letter-spacing: 0.12em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .site-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+    }
+
+    .site-header-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.875rem;
+      border: 1px solid transparent;
+      border-radius: 0.375rem;
+      background: #ffffff;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+      color: #0f172a;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .site-header-link:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+      transform: translateY(-1px);
+    }
+
+    .site-header-link-primary {
+      margin-left: 0.5rem;
+      border-color: #00aeff;
+      background: #00aeff;
+      color: #ffffff;
+    }
+
+    .site-header-link-primary:hover {
+      border-color: #008bca;
+      background: #008bca;
+      color: #ffffff;
+    }
+
+    @media (max-width: 575.98px) {
+      .site-header-inner {
+        width: calc(100% - 1.5rem);
+        min-height: 60px;
+        gap: 0.5rem;
+      }
+
+      .site-header-link-resource {
+        display: none;
+      }
+
+      .site-header-link-primary {
+        margin-left: 0;
+      }
+    }
+
+    /* Typography & App Elements */
+    .steg-title {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+    }
+
+    .section-label {
+      font-weight: 700;
+      color: #475569;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      font-size: 1.1rem;
+    }
+
+    .text-card-panel {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    }
+
+    .form-control-custom {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      padding: 12px;
+      resize: none;
+      font-family: "Quicksand", sans-serif;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-control-custom:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+      outline: 0;
+    }
+
+    /* Select Dropdown Enhancements */
+    .form-select-custom {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 1rem;
+      padding: 10px 14px;
+      font-family: "Quicksand", sans-serif;
+      font-weight: 600;
+      color: #334155;
+      background-color: #f8fafc;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-select-custom:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+      outline: 0;
+    }
+
+    /* Centered Navigation Tabs Styles */
+    .tab-nav-wrapper {
+      display: flex;
+      justifyContent: center;
+      margin-bottom: 25px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .nav-tabs-custom {
+      display: inline-flex;
+      border-bottom: none;
+      gap: 8px;
+      margin-bottom: -2px;
+    }
+
+    .nav-tabs-custom .nav-link {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #64748b;
+      border: none;
+      padding: 10px 32px;
+      border-radius: 8px 8px 0 0;
+      transition: all 0.2s ease;
+      background: rgba(248, 250, 252, 0.7);
+    }
+
+    .nav-tabs-custom .nav-link:hover {
+      color: #0f172a;
+      background-color: #f1f5f9;
+      border: none;
+    }
+
+    .nav-tabs-custom .nav-link.active {
+      color: #ffffff;
+      border: none;
+    }
+
+    .nav-tabs-custom #encode-tab.active {
+      background-color: #00a8ff;
+      box-shadow: 0 4px 12px rgba(0, 168, 255, 0.25);
+    }
+
+    .nav-tabs-custom #decode-tab.active {
+      background-color: #546e7a;
+      box-shadow: 0 4px 12px rgba(84, 110, 122, 0.25);
+    }
+
+    /* Core Action Buttons */
+    .btn-action {
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 12px 30px;
+      border-radius: 8px;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-encode {
+      background-color: #00a8ff;
+      color: white;
+    }
+
+    .btn-encode:hover {
+      background-color: #0096e0;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 168, 255, 0.2);
+    }
+
+    .btn-decode {
+      background-color: #546e7a;
+      color: white;
+    }
+
+    .btn-decode:hover {
+      background-color: #455a64;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(84, 110, 122, 0.2);
+    }
+
+    .panel-icon-btn {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      transition: color 0.2s;
+    }
+
+    .panel-icon-btn:hover {
+      color: #ef4444;
+    }
+
+    .panel-icon-btn.copy:hover {
+      color: #3b82f6;
+    }
+
+    .panel-icon-btn.paste:hover {
+      color: #10b981;
+    }
+
+    /* Loading Overlay */
+    #loadingScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      display: none;
+    }
+
+    #loadingScreen.show {
+      display: flex;
+      justifyContent: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .loading-text {
+      margin-top: 20px;
+      font-size: 1.25rem;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* Modern Footer */
+    .footer {
+      background-color: #0f172a;
+      color: #94a3b8;
+      padding: 30px 0;
+      margin-top: 60px;
+    }
+
+    .footer a {
+      color: #38bdf8;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer a:hover {
+      color: #7dd3fc;
+      text-decoration: underline;
+    }
+    /* Custom animated dropdown for cover text type */
+    .custom-select-wrapper { position: relative; width: 100%; }
+    .custom-select-button { width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+    .custom-select-list {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(100% + 8px);
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      box-shadow: 0 6px 22px rgba(2,6,23,0.06);
+      transition: max-height 260ms cubic-bezier(.2,.9,.2,1), opacity 180ms ease;
+      pointer-events: none;
+      z-index: 50;
+    }
+    .custom-select-list.open { max-height: 260px; opacity: 1; pointer-events: auto; }
+    .custom-select-item { padding: 10px 14px; cursor: pointer; font-weight: 600; color: #334155; }
+    .custom-select-item:hover, .custom-select-item[aria-selected="true"] { background: #f8fafc; }
+
+    /* Match the home page's light, slate-and-cyan visual system. */
+    body {
+      --bs-body-font-family: "Inter", sans-serif;
+      --bs-body-color: #1e293b;
+      --bs-body-bg: #f8fafc;
+      font-family: "Inter", sans-serif;
+      color: #1e293b;
+      background-color: #f8fafc;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(0, 174, 255, 0.04) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(0, 174, 255, 0.04) 0%, transparent 20%);
+    }
+
+    body > .container.mt-5 {
+      max-width: 1280px;
+      margin-top: 2.75rem !important;
+      margin-bottom: 4rem;
+    }
+
+    .steg-title {
+      max-width: 900px;
+      margin: 0 auto 0.75rem;
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      line-height: 1.05;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .workspace-eyebrow {
+      display: inline-block;
+      margin-bottom: 0.5rem;
+      color: #008bca;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .workspace-subtitle {
+      max-width: 700px;
+      margin: 0 auto;
+      color: #64748b !important;
+      font-size: clamp(1rem, 2vw, 1.15rem) !important;
+      line-height: 1.6;
+    }
+
+    .tab-nav-wrapper {
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      border-bottom: 0;
+    }
+
+    .nav-tabs-custom {
+      width: min(100%, 720px);
+      gap: 0.5rem;
+      margin-bottom: 0;
+      padding: 0.375rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.75rem;
+      background: #ffffff;
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.04);
+    }
+
+    .nav-tabs-custom .nav-item {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+
+    .nav-tabs-custom .nav-link {
+      width: 100%;
+      padding: 0.75rem 0.85rem;
+      border-radius: 0.5rem;
+      background: transparent;
+      color: rgb(100, 116, 139);
+      font-size: clamp(0.8rem, 1.7vw, 1rem);
+      line-height: 1.35;
+      white-space: nowrap;
+    }
+
+    .nav-tabs-custom .nav-link:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    .nav-tabs-custom #encode-tab.active{
+      background: #00aeff;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 174, 255, 0.22);
+    }
+    .nav-tabs-custom #decode-tab.active {
+      background: rgb(100, 116, 139);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 174, 255, 0.22);
+    }
+
+    .text-card-panel {
+      padding: clamp(1rem, 2.5vw, 1.5rem);
+      border-color: #e2e8f0;
+      border-radius: 0.875rem;
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.04);
+    }
+
+    .section-label {
+      color: #334155;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+    }
+
+    .form-control-custom,
+    .form-select-custom {
+      border-color: #cbd5e1;
+      border-radius: 0.6rem;
+      font-family: "Inter", sans-serif;
+      font-size: 1rem;
+    }
+
+    .form-control-custom:focus,
+    .form-select-custom:focus {
+      border-color: #00aeff;
+      box-shadow: 0 0 0 3px rgba(0, 174, 255, 0.14);
+    }
+
+    .btn-action {
+      padding: 0.8rem 1.25rem;
+      border-radius: 0.6rem;
+      font-family: "Oswald", sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .btn-encode{
+      background-color: #00aeff;
+      color: #ffffff;
+    }
+    .btn-decode {
+      background-color: rgb(100, 116, 139);
+      color: #ffffff;
+    }
+
+    .btn-encode:hover{
+      background-color: #008bca;
+      box-shadow: 0 4px 12px rgba(0, 174, 255, 0.2);
+    }
+    .btn-decode:hover {
+      background-color: rgb(71, 83, 99);
+      box-shadow: 0 4px 12px rgba(0, 174, 255, 0.2);
+    }
+
+    .panel-icon-btn {
+      padding: 0.25rem;
+      color: #64748b;
+    }
+
+    .panel-icon-btn:hover,
+    .panel-icon-btn.copy:hover,
+    .panel-icon-btn.paste:hover {
+      color: #008bca;
+    }
+
+    .footer {
+      margin-top: 3rem;
+      background-color: #0e1726;
+    }
+
+    @media (max-width: 575.98px) {
+      body > .container.mt-5 {
+        margin-top: 2rem !important;
+      }
+
+      .nav-tabs-custom {
+        gap: 0.25rem;
+      }
+
+      .nav-tabs-custom .nav-link {
+        padding: 0.65rem 0.35rem;
+      }
+
+      .nav-tabs-custom .nav-link .bi {
+        margin-right: 0.2rem !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="loadingScreen">
+    <div class="spinner-border text-info" style="width: 4rem; height: 4rem;" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="loading-text" id="loadingMessage">Processing...</div>
+  </div>
+
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="index.html" class="site-brand" aria-label="Stegveil home">
+        <span class="site-brand-icon"><img src="Steg_Veil.png" alt=""></span>
+        <span>
+          <span class="site-brand-name">Steg<span>veil</span></span>
+          <span class="site-brand-tagline">Hide text</span>
+        </span>
+      </a>
+      <nav class="site-header-actions" aria-label="Resources">
+        <a href="https://github.com/Vaishnavi-pix/Steganography" target="_blank" rel="noopener noreferrer" class="site-header-link site-header-link-resource">
+          <i class="bi bi-github"></i> GitHub
+        </a>
+        <a href="stegveil_paper.pdf" target="_blank" rel="noopener noreferrer" class="site-header-link site-header-link-resource">
+          <i class="bi bi-file-earmark-pdf text-danger"></i> Paper
+        </a>
+        <a href="https://www.youtube.com/watch?v=HL0nA5bEacM" target="_blank" rel="noopener noreferrer" class="site-header-link site-header-link-resource">
+          <i class="bi bi-play-fill text-info"></i> Demo Video
+        </a>
+        <a href="https://ko-fi.com/stegveil" target="_blank" rel="noopener noreferrer" class="site-header-link site-header-link-primary">
+        <i class="bi bi-rocket-takeoff-fill"></i> Donate
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container mt-5">
+    <div class="row mb-5 text-center">
+      <div class="col-12">
+        <span class="workspace-eyebrow">Secure message workspace</span>
+        <h1 class="steg-title">Hiding Data in Plain Text</h1>
+        <p class="workspace-subtitle">Encode a message into natural cover text or decode a carrier using prepositional steganography.</p>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-12 col-xl-10">
+        <div class="tab-nav-wrapper">
+          <ul class="nav nav-tabs nav-tabs-custom" id="stegTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="encode-tab" data-bs-toggle="tab" type="button" role="tab" aria-selected="true" onclick="switchMode('encode')">
+                <i class="bi bi-shield-lock-fill me-2"></i>Encode Message
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="decode-tab" data-bs-toggle="tab" type="button" role="tab" aria-selected="false" onclick="switchMode('decode')">
+                <i class="bi bi-unlock-fill me-2"></i>Decode Steg Text
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <form class="row justify-content-center">
+      <div id="mainCol" class="col-12 col-xl-10">
+        
+        <div class="row mb-4" id="coverTextContainer">
+          <div class="col-12">
+            <div class="text-card-panel">
+              <label for="coverTextType" class="section-label mb-2 d-block">Cover Text Type</label>
+              <select id="coverTextType" style="display:none;">
+                <option value="email" selected>Email Generation</option>
+                <option value="narrative">Narrative Storytelling</option>
+                <option value="essay">Academic Essay</option>
+              </select>
+
+              <div id="coverCustom" class="custom-select-wrapper w-100">
+                <button id="coverSelectButton" type="button" class="form-select-custom custom-select-button" aria-haspopup="listbox" aria-expanded="false">Email Generation</button>
+                <ul id="coverSelectList" class="custom-select-list" role="listbox" tabindex="-1">
+                  <li class="custom-select-item" data-value="email" role="option" aria-selected="true">Email Generation</li>
+                  <li class="custom-select-item" data-value="narrative" role="option">Narrative Storytelling</li>
+                  <li class="custom-select-item" data-value="essay" role="option">Academic Essay</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div id="passwordPanelEncodeRow" class="row mb-3">
+          <div class="col-12">
+            <div class="text-card-panel">
+              <div class="mb-0">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <label for="passwordInputEncode" class="section-label mb-0">Password</label>
+                  <div class="d-flex align-items-center gap-2">
+                    <button type="button" id="copyPasswordBtnEncode" class="panel-icon-btn copy" onclick="copyPassword('encode')" title="Copy Password">
+                      <i class="bi bi-clipboard-fill fs-5"></i>
+                    </button>
+                    <button type="button" id="pastePasswordBtnEncode" class="panel-icon-btn paste" onclick="pastePassword('encode')" title="Paste Password">
+                      <i class="bi bi-clipboard2-plus-fill fs-5"></i>
+                    </button>
+                    <button type="button" id="clearPasswordBtnEncode" class="panel-icon-btn" onclick="clearPassword('encode')" title="Clear Password">
+                      <i class="bi bi-trash3-fill fs-5"></i>
+                    </button>
+                    <span id="passwordCopiedMsgEncode" class="ms-2 text-success visually-hidden" style="font-size:0.95rem;">Copied!</span>
+                  </div>
+                </div>
+
+                <div class="d-flex align-items-center gap-2">
+                  <input type="password" id="passwordInputEncode" class="form-control form-control-custom flex-grow-1" placeholder="Enter password" maxlength="125">
+                  <button type="button" id="togglePasswordBtnEncode" class="panel-icon-btn" onclick="togglePasswordVisibility('encode')" title="Show/Hide Password">
+                    <i id="togglePasswordIconEncode" class="bi bi-eye fs-5"></i>
+                  </button>
+                </div>
+
+                <div class="d-flex mt-2">
+                  <div class="flex-grow-1">
+                    <small id="passwordNoteEncode" class="text-muted d-block">Don't lose this password — you'll need it to decode. Enter no password to use the default key.</small>
+                  </div>
+                  <small id="passwordCharCountEncode" class="text-muted fw-semibold">0 / 125</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="passwordPanelDecodeRow" class="row mb-3" style="display:none;">
+          <div class="col-12">
+            <div class="text-card-panel">
+              <div class="mb-0">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <label for="passwordInputDecode" class="section-label mb-0">Password</label>
+                  <div class="d-flex align-items-center gap-2">
+                    <button type="button" id="copyPasswordBtnDecode" class="panel-icon-btn copy" onclick="copyPassword('decode')" title="Copy Password">
+                      <i class="bi bi-clipboard-fill fs-5"></i>
+                    </button>
+                    <button type="button" id="pastePasswordBtnDecode" class="panel-icon-btn paste" onclick="pastePassword('decode')" title="Paste Password">
+                      <i class="bi bi-clipboard2-plus-fill fs-5"></i>
+                    </button>
+                    <button type="button" id="clearPasswordBtnDecode" class="panel-icon-btn" onclick="clearPassword('decode')" title="Clear Password">
+                      <i class="bi bi-trash3-fill fs-5"></i>
+                    </button>
+                    <span id="passwordCopiedMsgDecode" class="ms-2 text-success visually-hidden" style="font-size:0.95rem;">Copied!</span>
+                  </div>
+                </div>
+
+                <div class="d-flex align-items-center gap-2">
+                  <input type="password" id="passwordInputDecode" class="form-control form-control-custom flex-grow-1" placeholder="Enter password" maxlength="125">
+                  <button type="button" id="togglePasswordBtnDecode" class="panel-icon-btn" onclick="togglePasswordVisibility('decode')" title="Show/Hide Password">
+                    <i id="togglePasswordIconDecode" class="bi bi-eye fs-5"></i>
+                  </button>
+                </div>
+
+                <div class="d-flex mt-2">
+                  <div class="flex-grow-1">
+                    <small id="passwordNoteDecode" class="text-muted d-block">If no password is entered, the default key will be used.</small>
+                  </div>
+                  <small id="passwordCharCountDecode" class="text-muted fw-semibold">0 / 125</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="inputPanelRow" class="row mb-4">
+          <div class="col-12">
+            <div class="text-card-panel">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <label for="inputText" class="section-label" id="inputLabel">Input Content</label>
+                <div class="d-flex align-items-center gap-2">
+                  <button type="button" class="panel-icon-btn paste" id="pasteInputButton" onclick="pasteFromClipboard()" title="Paste Text" style="display: inline-block;">
+                    <i class="bi bi-clipboard2-plus-fill fs-5"></i>
+                  </button>
+                  <button type="button" class="panel-icon-btn" id="clearInputButton" onclick="clearInputText()" title="Clear Text">
+                    <i class="bi bi-trash3-fill fs-5"></i>
+                  </button>
+                </div>
+              </div>
+
+              <textarea class="form-control form-control-custom" id="inputText" rows="8"
+                placeholder="Enter your secret message here..."></textarea>
+              
+              <div class="d-flex justify-content-end mt-2">
+                <small id="charCount" class="text-muted fw-semibold">0 / 45</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-4 justify-content-center">
+          <div class="col-md-6 text-center">
+            <button type="button" id="mainActionButton" class="btn-action btn-encode w-100 shadow-sm" onclick="doConversion(event)">
+              <i class="bi bi-shield-lock-fill me-2"></i>Encode
+            </button>
+          </div>
+        </div>
+        
+        <!-- Separate password panels for Encode and Decode (keeps values independent) -->
+   
+        <div id="outputPanelRow" class="row">
+          <div class="col-12">
+            <div class="text-card-panel">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <label for="outputText" class="section-label" id="outputLabel">Output Result</label>
+                <div class="d-flex align-items-center">
+                  <span id="copyMessage" class="me-2 text-success fw-bold visually-hidden" style="font-size: 0.9rem;">Copied!</span>
+                  <button type="button" class="panel-icon-btn copy" id="copyButton" onclick="copyOutputText()" title="Copy Text">
+                    <i class="bi bi-clipboard-fill fs-5"></i>
+                  </button>
+                </div>
+              </div>
+              <textarea class="form-control form-control-custom bg-light" id="outputText" rows="8" readonly 
+                placeholder="The transformation results will appear here..."></textarea>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <!-- Top Row: Contact Details and Links -->
+          <div class="d-flex justify-content-between align-items-center flex-column flex-md-row pb-3">
+            <div class="mb-3 mb-md-0">
+              <h4 class="text-white mb-1" style="font-family: 'Oswald', sans-serif; font-weight: 600;">Contact Details</h4>
+              <p class="small text-muted mb-0">Stegveil Experimental NLP Security Tooling</p>
+            </div>
+            <div class="text-md-end text-center">
+              <p class="mb-1">Email: <a href="mailto:contact@stegveil.dev">contact@stegveil.dev</a></p>
+              <p class="mb-0">Discord Integration: <a href="https://discord.gg/ZPPRG7zRqd" target="_blank">Join Server</a></p>
+            </div>
+          </div>
+          
+          <!-- Bottom Row: Full-Width Legal Disclaimer -->
+          <div class="border-top border-secondary pt-3 text-center text-md-start">
+            <p class="text-white-50 mb-0" style="font-size: 0.75rem; line-height: 1.4; letter-spacing: 0.3px;">
+              <strong class="text-white">Disclaimer:</strong> This tool is provided "as-is" for research purposes without warranties of any kind. The developer assumes zero liability for data loss, concealment failures, or any illicit use of this software. By clicking encode or decode, you assume full legal responsibility for your compliance with all applicable local, state, national, and international laws.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+
+  <script>
+    let currentMode = 'encode';
+    const encodeMaxChars = 45;
+    // Per-mode storage so encode/decode have separate text boxes
+    let encodeInput = '';
+    let encodeOutput = '';
+    let decodeInput = '';
+    let decodeOutput = '';
+    // Separate password storage for encode/decode so edits don't mirror
+    let encodePassword = '';
+    let decodePassword = '';
+
+    function switchMode(mode) {
+      // store previous mode values first
+      const previousMode = currentMode;
+      const inputText = document.getElementById("inputText");
+      const outputText = document.getElementById("outputText");
+      const pwdEncode = document.getElementById('passwordInputEncode');
+      const pwdDecode = document.getElementById('passwordInputDecode');
+
+      if (previousMode === 'encode') {
+        encodeInput = inputText ? inputText.value : encodeInput;
+        encodeOutput = outputText ? outputText.value : encodeOutput;
+        encodePassword = pwdEncode ? pwdEncode.value : encodePassword;
+      } else {
+        decodeInput = inputText ? inputText.value : decodeInput;
+        decodeOutput = outputText ? outputText.value : decodeOutput;
+        decodePassword = pwdDecode ? pwdDecode.value : decodePassword;
+      }
+      currentMode = mode;
+      const coverTextContainer = document.getElementById("coverTextContainer");
+      const inputLabel = document.getElementById("inputLabel");
+      const outputLabel = document.getElementById("outputLabel");
+      // references to input/output already obtained above
+      const mainActionButton = document.getElementById("mainActionButton");
+      const pasteInputButton = document.getElementById("pasteInputButton");
+
+      // Preserve input/output text when switching modes; user controls clearing
+
+      if (mode === 'encode') {
+        pasteInputButton.style.display = "inline-block"; // Show paste button in encode mode
+        coverTextContainer.style.display = "block";
+        inputLabel.innerText = "Input Content";
+        outputLabel.innerText = "Output Result";
+        inputText.placeholder = "Enter your secret message here...";
+        
+        mainActionButton.className = "btn-action btn-encode w-100 shadow-sm";
+        mainActionButton.innerHTML = '<i class="bi bi-shield-lock-fill me-2"></i>Encode';
+        mainActionButton.onclick = doConversion;
+
+        // show encode password panel, hide decode panel
+        document.getElementById('passwordPanelEncodeRow').style.display = '';
+        document.getElementById('passwordPanelDecodeRow').style.display = 'none';
+      } else {
+        pasteInputButton.style.display = "inline-block"; // Show paste button in decode mode
+        coverTextContainer.style.display = "none";
+        inputLabel.innerText = "Steg Text Input";
+        outputLabel.innerText = "Decoded Payload Output";
+        inputText.placeholder = "Paste your encrypted generated cover text here to read the hidden payload data...";
+        
+        mainActionButton.className = "btn-action btn-decode w-100 shadow-sm";
+        mainActionButton.innerHTML = '<i class="bi bi-unlock-fill me-2"></i>Decode';
+        mainActionButton.onclick = deConvert;
+
+        // show decode password panel, hide encode panel
+        document.getElementById('passwordPanelEncodeRow').style.display = 'none';
+        document.getElementById('passwordPanelDecodeRow').style.display = '';
+      }
+      // Restore per-mode text values into the visible textareas
+      if (inputText) inputText.value = (mode === 'encode' ? (encodeInput || '') : (decodeInput || ''));
+      if (outputText) outputText.value = (mode === 'encode' ? (encodeOutput || '') : (decodeOutput || ''));
+      // restore the appropriate password for the mode without mirroring edits
+      const pwdEncodeRestore = document.getElementById('passwordInputEncode');
+      const pwdDecodeRestore = document.getElementById('passwordInputDecode');
+      if (pwdEncodeRestore) pwdEncodeRestore.value = encodePassword || '';
+      if (pwdDecodeRestore) pwdDecodeRestore.value = decodePassword || '';
+      // update the char count displays for both
+      if (typeof updatePasswordCharCount === 'function') {
+        updatePasswordCharCount('encode');
+        updatePasswordCharCount('decode');
+      }
+
+      // Move the password panel to be its own card above the chosen panel
+      const passwordPanel = document.getElementById('passwordPanelRow');
+      const mainCol = document.getElementById('mainCol');
+      const inputPanel = document.getElementById('inputPanelRow');
+      const outputPanel = document.getElementById('outputPanelRow');
+      const passwordInput = document.getElementById('passwordInput');
+      const passwordNote = document.getElementById('passwordNote');
+      const copyPasswordBtn = document.getElementById('copyPasswordBtn');
+      const pastePasswordBtn = document.getElementById('pastePasswordBtn');
+      const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+      if (passwordPanel && mainCol) {
+        if (mode === 'encode') {
+          if (inputPanel) mainCol.insertBefore(passwordPanel, inputPanel);
+          if (passwordInput) {
+            // make editable and use the same white background as the input textarea
+            passwordInput.readOnly = false;
+            passwordInput.classList.remove('bg-light');
+          }
+          if (passwordNote) passwordNote.classList.remove('visually-hidden');
+          if (copyPasswordBtn) copyPasswordBtn.style.display = 'inline-block';
+          if (pastePasswordBtn) pastePasswordBtn.style.display = 'none';
+          if (togglePasswordBtn) togglePasswordBtn.style.display = 'inline-block';
+        } else {
+          if (inputPanel) mainCol.insertBefore(passwordPanel, inputPanel);
+          if (passwordInput) {
+            passwordInput.readOnly = false;
+            passwordInput.classList.remove('bg-light');
+          }
+          if (passwordNote) passwordNote.classList.add('visually-hidden');
+          if (copyPasswordBtn) copyPasswordBtn.style.display = 'none';
+          if (pastePasswordBtn) pastePasswordBtn.style.display = 'inline-block';
+          if (togglePasswordBtn) togglePasswordBtn.style.display = 'inline-block';
+        }
+      }
+
+      updateCharCount();
+    }
+
+    // New action function to handle pasting directly from systemic navigator clipboard APIs
+    async function pasteFromClipboard() {
+      const inputText = document.getElementById("inputText");
+      try {
+        const text = await navigator.clipboard.readText();
+        inputText.value = text;
+        updateCharCount();
+      } catch (err) {
+        console.error("Failed to read clipboard contents: ", err);
+        alert("Clipboard access denied or unsupported. Please use Ctrl+V / Cmd+V to paste manually.");
+      }
+    }
+
+    // Custom animated dropdown (accordion-style) for coverTextType
+    (function setupCustomCoverDropdown(){
+      const nativeSelect = document.getElementById('coverTextType');
+      const button = document.getElementById('coverSelectButton');
+      const list = document.getElementById('coverSelectList');
+      if (!nativeSelect || !button || !list) return;
+
+      const items = Array.from(list.querySelectorAll('.custom-select-item'));
+
+      const openList = () => {
+        list.classList.add('open');
+        button.setAttribute('aria-expanded', 'true');
+      };
+      const closeList = () => {
+        list.classList.remove('open');
+        button.setAttribute('aria-expanded', 'false');
+      };
+
+      // Toggle on button click
+      button.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (list.classList.contains('open')) closeList(); else openList();
+      });
+
+      // helper to set button label while preserving icon
+      const setButtonLabel = (label) => { button.innerHTML = label + ' <i class="bi bi-caret-down-fill"></i>'; };
+
+      // Select item
+      items.forEach((it, idx) => {
+        it.addEventListener('click', (e) => {
+          const v = it.getAttribute('data-value');
+          // update native select
+          nativeSelect.value = v;
+          // update button text
+          setButtonLabel(it.textContent.trim());
+          // mark selected
+          items.forEach(i => i.setAttribute('aria-selected', 'false'));
+          it.setAttribute('aria-selected', 'true');
+          closeList();
+          nativeSelect.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+        // keyboard navigation on items
+        it.addEventListener('keydown', (ev) => {
+          if (ev.key === 'Enter' || ev.key === ' ') {
+            ev.preventDefault(); it.click();
+          } else if (ev.key === 'ArrowDown') {
+            ev.preventDefault(); const next = items[idx+1] || items[0]; next.focus();
+          } else if (ev.key === 'ArrowUp') {
+            ev.preventDefault(); const prev = items[idx-1] || items[items.length-1]; prev.focus();
+          } else if (ev.key === 'Escape') {
+            closeList(); button.focus();
+          }
+        });
+        it.tabIndex = 0;
+      });
+
+      // Close when clicking outside
+      document.addEventListener('click', (e) => { if (!list.contains(e.target) && e.target !== button) closeList(); });
+
+      // Close on blur of button
+      button.addEventListener('blur', () => setTimeout(() => { if (document.activeElement && !list.contains(document.activeElement)) closeList(); }, 150));
+
+      // Keyboard open via button
+      button.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown' || e.key === ' ') {
+          e.preventDefault(); openList(); items[0].focus();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault(); openList(); items[items.length-1].focus();
+        }
+      });
+
+      // init button text from native select
+      const initOption = nativeSelect.querySelector('option:checked');
+      if (initOption) setButtonLabel(initOption.textContent.trim());
+    })();
+
+    function showLoading(message = "Processing...") {
+      document.getElementById("loadingMessage").innerText = message;
+      document.getElementById("loadingScreen").classList.add("show");
+    }
+
+    function hideLoading() {
+      document.getElementById("loadingScreen").classList.remove("show");
+    }
+
+    async function doConversion(event) {
+      if(event) event.preventDefault();
+      showLoading("Encoding hidden text...");
+
+      const coverType = document.getElementById("coverTextType").value;
+
+      try {
+        const response = await fetch("stegText", {
+          method: "POST",
+          body: JSON.stringify({
+              inputText: document.getElementById("inputText").value,
+              coverType: coverType,
+              password: document.getElementById("passwordInputEncode").value
+            }),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+
+        const result = await response.text();
+        document.getElementById("outputText").value = result;
+
+      } catch (err) {
+        console.error(err);
+        alert("Error during conversion.");
+      } finally {
+        hideLoading();
+      }
+    }
+
+    async function deConvert(event) {
+      if(event) event.preventDefault();
+      showLoading("Decoding hidden text...");
+
+      try {
+        const response = await fetch("deStegText", {
+          method: "POST",
+          body: JSON.stringify({
+              inputText: document.getElementById("inputText").value,
+              password: document.getElementById("passwordInputDecode").value
+            }),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+
+        const result = await response.text();
+        document.getElementById("outputText").value = result;
+
+      } catch (err) {
+        console.error(err);
+        alert("Error during deconversion.");
+      } finally {
+        hideLoading();
+      }
+    }
+
+    const inputTextarea = document.getElementById("inputText");
+    const outputTextarea = document.getElementById("outputText");
+    const charCountSpan = document.getElementById("charCount");
+
+    function updateCharCount() {
+      let currentLength = inputTextarea.value.length;
+
+      if (currentMode === 'encode') {
+        if (currentLength > encodeMaxChars) {
+          inputTextarea.value = inputTextarea.value.substring(0, encodeMaxChars);
+          currentLength = encodeMaxChars;
+        }
+        charCountSpan.textContent = `${currentLength} / ${encodeMaxChars}`;
+
+        if (currentLength >= encodeMaxChars) {
+          charCountSpan.classList.add("text-danger");
+          charCountSpan.classList.remove("text-muted");
+        } else {
+          charCountSpan.classList.remove("text-danger");
+          charCountSpan.classList.add("text-muted");
+        }
+      } else {
+        charCountSpan.textContent = `${currentLength} characters`;
+        charCountSpan.classList.remove("text-danger");
+        charCountSpan.classList.add("text-muted");
+      }
+    }
+
+    inputTextarea.addEventListener("input", updateCharCount);
+    inputTextarea.addEventListener("keyup", updateCharCount); 
+      updateCharCount();
+    // Ensure UI elements (password wrapper placement & readonly state) match current mode on load
+    switchMode(currentMode);
+
+    // Password character count handling (per-mode)
+    function updatePasswordCharCount(mode) {
+      const id = mode === 'decode' ? 'passwordInputDecode' : 'passwordInputEncode';
+      const countId = mode === 'decode' ? 'passwordCharCountDecode' : 'passwordCharCountEncode';
+      const pwd = document.getElementById(id);
+      const countEl = document.getElementById(countId);
+      if (!pwd || !countEl) return;
+      const len = pwd.value.length;
+      countEl.textContent = `${len} / 125`;
+      if (len >= 125) {
+        countEl.classList.remove('text-muted');
+        countEl.classList.add('text-danger');
+      } else {
+        countEl.classList.remove('text-danger');
+        countEl.classList.add('text-muted');
+      }
+    }
+
+    // wire up both password inputs
+    const pwdInputEncodeEl = document.getElementById('passwordInputEncode');
+    if (pwdInputEncodeEl) {
+      pwdInputEncodeEl.addEventListener('input', () => updatePasswordCharCount('encode'));
+      pwdInputEncodeEl.addEventListener('keyup', () => updatePasswordCharCount('encode'));
+      updatePasswordCharCount('encode');
+    }
+    const pwdInputDecodeEl = document.getElementById('passwordInputDecode');
+    if (pwdInputDecodeEl) {
+      pwdInputDecodeEl.addEventListener('input', () => updatePasswordCharCount('decode'));
+      pwdInputDecodeEl.addEventListener('keyup', () => updatePasswordCharCount('decode'));
+      updatePasswordCharCount('decode');
+    }
+
+    // initialize toggle icon state
+    const toggleIconEncode = document.getElementById('togglePasswordIconEncode');
+    const toggleIconDecode = document.getElementById('togglePasswordIconDecode');
+    if (toggleIconEncode) toggleIconEncode.className = 'bi bi-eye fs-5';
+    if (toggleIconDecode) toggleIconDecode.className = 'bi bi-eye fs-5';
+
+    function clearInputText() {
+      inputTextarea.value = '';
+      updateCharCount();
+    }
+
+    async function copyOutputText() {
+      const copyMessageSpan = document.getElementById("copyMessage");
+      try {
+        await navigator.clipboard.writeText(outputTextarea.value);
+        copyMessageSpan.classList.remove("visually-hidden");
+        
+        setTimeout(() => {
+          copyMessageSpan.classList.add("visually-hidden");
+        }, 2000);
+      } catch (err) {
+        console.error("Failed to copy text: ", err);
+        alert("Failed to copy text. Please copy manually.");
+      }
+    }
+
+    async function copyPassword(mode) {
+      const id = mode === 'decode' ? 'passwordInputDecode' : 'passwordInputEncode';
+      const msgId = mode === 'decode' ? 'passwordCopiedMsgDecode' : 'passwordCopiedMsgEncode';
+      const pwd = document.getElementById(id).value || '';
+      const msg = document.getElementById(msgId);
+      try {
+        await navigator.clipboard.writeText(pwd);
+        if (msg) {
+          msg.classList.remove('visually-hidden');
+          setTimeout(() => msg.classList.add('visually-hidden'), 2000);
+        }
+      } catch (err) {
+        console.error('Failed to copy password: ', err);
+        alert('Failed to copy password. Please copy manually.');
+      }
+    }
+
+    async function pastePassword(mode) {
+      const id = mode === 'decode' ? 'passwordInputDecode' : 'passwordInputEncode';
+      const pwdEl = document.getElementById(id);
+      try {
+        const text = await navigator.clipboard.readText();
+        if (pwdEl) {
+          pwdEl.value = text;
+          updatePasswordCharCount(mode);
+          if (mode === 'encode') encodePassword = pwdEl.value;
+          else decodePassword = pwdEl.value;
+        }
+      } catch (err) {
+        console.error('Failed to read clipboard for password: ', err);
+        alert('Failed to read from clipboard. Please paste manually.');
+      }
+    }
+
+    function togglePasswordVisibility(mode) {
+      const id = mode === 'decode' ? 'passwordInputDecode' : 'passwordInputEncode';
+      const iconId = mode === 'decode' ? 'togglePasswordIconDecode' : 'togglePasswordIconEncode';
+      const pwdEl = document.getElementById(id);
+      const icon = document.getElementById(iconId);
+      if (!pwdEl || !icon) return;
+      if (pwdEl.type === 'password') {
+        pwdEl.type = 'text';
+        icon.className = 'bi bi-eye-slash fs-5';
+      } else {
+        pwdEl.type = 'password';
+        icon.className = 'bi bi-eye fs-5';
+      }
+    }
+
+    function clearPassword(mode) {
+      const id = mode === 'decode' ? 'passwordInputDecode' : 'passwordInputEncode';
+      const msgId = mode === 'decode' ? 'passwordCopiedMsgDecode' : 'passwordCopiedMsgEncode';
+      const pwdEl = document.getElementById(id);
+      const msgEl = document.getElementById(msgId);
+      if (!pwdEl) return;
+      // clear the value and any attribute that may persist
+      try { pwdEl.value = ''; } catch (e) {}
+      try { pwdEl.setAttribute('value', ''); } catch (e) {}
+      // dispatch events so UI/state listeners update
+      try { pwdEl.dispatchEvent(new Event('input', { bubbles: true })); } catch (e) {}
+      try { pwdEl.dispatchEvent(new Event('change', { bubbles: true })); } catch (e) {}
+      updatePasswordCharCount(mode);
+      if (mode === 'encode') encodePassword = '';
+      else decodePassword = '';
+      if (msgEl) msgEl.classList.add('visually-hidden');
+    }
+  </script>
+
+</body>
+</html>
